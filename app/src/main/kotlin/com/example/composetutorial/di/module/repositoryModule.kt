@@ -1,5 +1,9 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.repo.LoginRepository
+import com.example.composetutorial.repo.LoginRepositoryImpl
+import com.example.composetutorial.repo.MainRepository
+import com.example.composetutorial.repo.MainRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -10,9 +14,6 @@ import org.koin.dsl.module
  */
 val repositoryModule = module {
     single<MainRepository> { MainRepositoryImpl(androidContext()) }
-    single<LoginRepository> { LoginRepositoryImpl() }
+    single<LoginRepository> { LoginRepositoryImpl }
 }
 
-interface MainRepository {
-
-}

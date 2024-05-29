@@ -1,5 +1,7 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.LoginViewModel
+import com.example.composetutorial.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -11,6 +13,5 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
-    viewModel { YearGradesViewModel(get()) }
-    viewModel { CalendarViewModel(get()) }
+    viewModel { MainViewModel(get()) }
 }
