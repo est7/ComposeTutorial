@@ -109,6 +109,10 @@ dependencies {
     implementation(libs.ktor.client.serialization)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.encoding)
+    implementation(libs.ktor.client.cio)
 
 
     testImplementation(libs.junit.api)
