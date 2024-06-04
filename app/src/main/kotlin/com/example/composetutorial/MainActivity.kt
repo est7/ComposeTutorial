@@ -5,16 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.composetutorial.ui.page.MainScreen
-import com.example.composetutorial.ui.theme.ComposeTutorialTheme
+import androidx.navigation.compose.rememberNavController
+import com.example.composetutorial.navagation.Destination
+import com.example.composetutorial.presentation.page.MainScreen
+import com.example.composetutorial.presentation.theme.ComposeTutorialTheme
+import com.example.composetutorial.utils.AppNavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +19,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeTutorialTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen()
-                }
+                val navController = rememberNavController()
+                AppNavHost(navController = navController, modifier = Modifier)
             }
         }
     }
 }
+
+
 

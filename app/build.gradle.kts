@@ -94,13 +94,20 @@ dependencies {
 
     // koin
     implementation(libs.koin.core)
+    implementation(libs.androidx.navigation.compose)
     compileOnly(libs.koin.annotations)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
+    implementation(libs.koin.workmanager)
     ksp(libs.koin.compiler)
 
+    // datastore
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
+    //navigation
+    implementation(libs.androidx.navigation.compose)
 
     // ktor
     implementation(libs.ktor.client.core)
