@@ -22,7 +22,6 @@ import org.koin.dsl.module
 
 val networkModule = module {
     single(createdAtStart = true) { provideKtorClient() }
-    apiModule
 }
 
 

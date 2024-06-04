@@ -16,6 +16,7 @@ import org.koin.dsl.module
 
 val appModules = listOf(
     networkModule,
+    apiModule,
     viewModelModule,
     repositoryModule,
     storageModule,
