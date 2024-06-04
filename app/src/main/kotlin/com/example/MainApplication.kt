@@ -27,7 +27,7 @@ class MainApplication : Application(), KoinComponent {
             androidContext(this@MainApplication)
             androidFileProperties()
             workManagerFactory()
-            appModules
+            modules(appModules)
         }
 
         Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)

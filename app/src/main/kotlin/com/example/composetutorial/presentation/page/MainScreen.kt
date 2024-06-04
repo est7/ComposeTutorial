@@ -40,7 +40,7 @@ fun MainScreen(
             ClickableIcon(
                 imageVector = Icons.Default.AccountCircle,
             ) {
-                onNavigate(Destination.MyUserInfo)
+                onNavigate(Destination.MyProfile)
             }
         })
     }, bottomBar = {

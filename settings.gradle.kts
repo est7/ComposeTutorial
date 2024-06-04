@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.bouncycastle.asn1.x500.style.RFC4519Style.o
+
 pluginManagement {
     repositories {
         google {
@@ -21,4 +23,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "ComposeTutorial"
 include(":app")
- 

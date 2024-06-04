@@ -4,8 +4,8 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import com.example.composetutorial.presentation.viewmodel.LoginViewModel
-import com.example.composetutorial.presentation.viewmodel.MyProfileSideEffect
+import com.example.composetutorial.presentation.viewmodel.MainScreenSideEffect
+import com.example.composetutorial.presentation.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 
@@ -15,16 +15,16 @@ import kotlinx.coroutines.flow.collectLatest
  * @date: 2024/6/4
  */
 @Composable
-fun HandleMyProfileSideEffect(
-    viewModel: LoginViewModel, handler: CoroutineScope.(sideEffect: MyProfileSideEffect) -> Unit = {}
+fun HandleMainSideEffect(
+    viewModel: MainViewModel, handler: CoroutineScope.(sideEffect: MainScreenSideEffect) -> Unit = {}
 ) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { effect ->
             handler.invoke(this, effect)
             when (effect) {
-                is MyProfileSideEffect.NavigateTo -> {}
-                is MyProfileSideEffect.ShowToast -> {
+                is MainScreenSideEffect.NavigateTo -> {}
+                is MainScreenSideEffect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
             }

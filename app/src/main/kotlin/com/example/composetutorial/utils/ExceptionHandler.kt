@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import android.os.FileUtils
 import android.os.Looper
-import android.util.Log
-import android.webkit.WebSettings
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.text.SimpleDateFormat

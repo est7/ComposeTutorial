@@ -5,5 +5,5 @@ sealed class Destination(val route: String) {
     data object Home : Destination("home")
     data object Follow : Destination("follow")
     data object Settings : Destination("settings")
-    data object MyUserInfo : Destination("my_user_info")
+    data object MyProfile : Destination("my_user_info")
 }

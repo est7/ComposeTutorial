@@ -1,8 +1,6 @@
 package com.example.composetutorial.data
 
-import androidx.datastore.core.DataStore
 import com.example.composetutorial.data.dto.UserInfoDTO
-import com.example.composetutorial.data.dto.UserPreferences
 import com.example.composetutorial.data.local.UserPreferencesDataSource
 import com.example.composetutorial.data.remote.LoginService
 import com.example.composetutorial.domain.repo.LoginRepository
@@ -20,7 +18,7 @@ class LoginRepositoryImpl(private val loginService: LoginService,private val loc
 
     override suspend fun getMyInfo(token:String): Flow<Result<UserInfoDTO>> {
         return flow {
-            val result = loginService.getMyInfo()
+            val result = loginService.getMyProfile()
             result.fold(onSuccess = {
                 emit(Result.success(it))
             }, onFailure = {

@@ -2,8 +2,6 @@ package com.example.composetutorial.di.module
 
 import android.util.Log
 import com.example.composetutorial.data.remote.ApiService
-import com.example.composetutorial.data.remote.LoginService
-import com.example.composetutorial.data.remote.UserInfoService
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint

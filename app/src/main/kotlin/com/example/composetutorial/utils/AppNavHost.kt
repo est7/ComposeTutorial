@@ -1,7 +1,6 @@
 package com.example.composetutorial.utils
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
@@ -12,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.composetutorial.navagation.Destination
 import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
-import com.example.composetutorial.presentation.page.MyUserInfoScreen
+import com.example.composetutorial.presentation.page.MyProfileScreen
 import com.example.composetutorial.presentation.page.SettingScreen
 
 
@@ -55,14 +54,14 @@ fun AppNavHost(
             SettingScreen()
         }
 
-        composable(route = Destination.MyUserInfo.route, enterTransition = {
+        composable(route = Destination.MyProfile.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
-            MyUserInfoScreen()
+            MyProfileScreen()
         }
     }
 }
