@@ -6,16 +6,14 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.junit5)
 }
-// sourceSets.main {
-//     java.srcDirs("build/generated/ksp/main/kotlin")
-// }
+
 android {
     namespace = "com.example.composetutorial"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.composetutorial"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -27,24 +25,58 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isDebuggable = true
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
+        }
+        release {
+            isMinifyEnabled = true
+            isDebuggable = false
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
         }
     }
+
+    buildFeatures {
+        compose = true
+    }
+    // Compose Compiler Gradle 插件的配置选项
+    // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compiler.html#compose-compiler-options-dsl
+    composeCompiler {
+        // enableStrongSkippingMode = true
+
+        // reportsDestination = layout.buildDirectory.dir("compose_compiler")
+
+        // stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+    }
+
+
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "21"
+        freeCompilerArgs += listOf(
+            "-P",
+            // If this is false the Layout Inspector has limited access to the composeables
+            "plugin:androidx.compose.compiler.plugins.kotlin:sourceInformation=true"
+        )
     }
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,INDEX.LIST}"
         }
     }
+
     sourceSets {
         getByName("main") {
             java.srcDirs("src/main/kotlin")
@@ -54,6 +86,7 @@ android {
         }
 
     }
+
     // For KSP
     /*
         applicationVariants.configureEach { variant ->
@@ -66,16 +99,6 @@ android {
     */
 
 
-}
-
-// Compose Compiler Gradle 插件的配置选项
-// https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compiler.html#compose-compiler-options-dsl
-composeCompiler {
-    // enableStrongSkippingMode = true
-
-    // reportsDestination = layout.buildDirectory.dir("compose_compiler")
-
-    // stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
 }
 
 
@@ -108,7 +131,7 @@ dependencies {
     // datastore
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.datastore.preferences)
-    //navigation
+    // navigation
     implementation(libs.androidx.navigation.compose)
 
     // ktor

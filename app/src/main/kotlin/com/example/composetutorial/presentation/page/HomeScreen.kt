@@ -13,12 +13,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import com.example.composetutorial.data.dto.ComposeTipsItemDTO
 import com.example.composetutorial.navagation.LocalNavController
 import com.example.composetutorial.presentation.viewmodel.MainScreenUiState
@@ -27,27 +29,29 @@ import com.example.composetutorial.uiwidget.EmptyContent
 import com.example.composetutorial.uiwidget.LoadingContent
 import com.example.composetutorial.utils.HandleMainSideEffect
 import com.example.composetutorial.utils.navigateTo
+import kotlinx.coroutines.cancel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: MainViewModel = koinViewModel(), @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
-) {
+    viewModel: MainViewModel = koinViewModel(), modifier: Modifier = Modifier) {
     val uiState = viewModel.mainScreenUiState.collectAsStateWithLifecycle()
-    HandleMainSideEffect(viewModel = viewModel)
-
+    HandleMainSideEffect(viewModel.sideEffect)
     LaunchedEffect(Unit) {
-        Log.d("HomeScreen", "getComposeTipsList")
         viewModel.getComposeTipsList()
     }
+    DisposableEffect(key1 = viewModel) {
+        onDispose {
+            Log.d("lilili", "HomeScreen-viewModel.viewModelScope.cancel()")
+            viewModel.viewModelScope.cancel()
+        }
+    }
 
-    HomeScreen(uiState.value, modifier)
+    HomeScreen(uiState = uiState.value, modifier)
 }
 
 @Composable
 fun HomeScreen(uiState: MainScreenUiState, modifier: Modifier) {
-
-
     when (uiState) {
         is MainScreenUiState.Error -> {
             EmptyContent(messageRes = uiState.message, modifier = modifier)
@@ -115,6 +119,9 @@ fun ComposeTipItem(composeTip: ComposeTipsItemDTO, onClick: () -> Unit = {}) {
 @Preview(name = "Home")
 @Composable
 private fun PreviewHome() {
-    HomeScreen()
+    HomeScreen(
+        uiState = MainScreenUiState.Success(listOf(ComposeTipsItemDTO("1", "path", "desc"))),
+        modifier = Modifier.fillMaxSize()
+    )
 }
 

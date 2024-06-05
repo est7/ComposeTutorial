@@ -20,7 +20,7 @@ androidx-datastore = "1.1.1"
 nav_version = "2.7.7"
 navigationCompose = "2.7.7"
 lifecycleRuntimeComposeAndroid = "2.8.1"
-testng = "6.9.6"
+testng = "7.10.2"
 
 
 [libraries]

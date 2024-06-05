@@ -1,19 +1,23 @@
 package com.example.composetutorial.presentation.page
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import com.example.composetutorial.presentation.viewmodel.LoginViewModel
 import com.example.composetutorial.presentation.viewmodel.MyProfileScreenUiState
 import com.example.composetutorial.uiwidget.EmptyContent
 import com.example.composetutorial.uiwidget.LoadingContent
 import com.example.composetutorial.utils.HandleMyProfileSideEffect
+import kotlinx.coroutines.cancel
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -25,6 +29,14 @@ fun MyProfileScreen(
     LaunchedEffect(Unit) {
         viewModel.updateMyProfile()
     }
+    DisposableEffect(Unit) {
+        onDispose {
+            // 不调用
+            //  Log.d("lilili", "MyProfileScreen-viewModel.viewModelScope.cancel()")
+            // viewModel.viewModelScope.cancel()
+        }
+    }
+
     HandleMyProfileSideEffect(viewModel)
     MyProfileScreen(uiState.value, modifier)
 }

@@ -1,5 +1,6 @@
 package com.example.composetutorial.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
  * @author: est8
  * @date: 2024/6/4
  */
-class MainViewModel(val handle: SavedStateHandle,private val getUserInfoListUseCase: GetUserInfoListUseCase) : ViewModel() {
+class MainViewModel(val handle: SavedStateHandle, private val getUserInfoListUseCase: GetUserInfoListUseCase) :
+    ViewModel() {
     private val _mainScreenUiState = MutableSharedFlow<MainScreenUiState>()
     val mainScreenUiState: StateFlow<MainScreenUiState> =
         _mainScreenUiState.stateIn(viewModelScope, SharingStarted.Eagerly, MainScreenUiState.Initial)
@@ -26,7 +28,7 @@ class MainViewModel(val handle: SavedStateHandle,private val getUserInfoListUseC
     private val _sideEffect: Channel<MainScreenSideEffect> = Channel()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    suspend fun getComposeTipsList():StateFlow<MainScreenUiState> {
+    suspend fun getComposeTipsList(): StateFlow<MainScreenUiState> {
         viewModelScope.launch {
             postSideEffect(MainScreenSideEffect.ShowToast("加载中..."))
 
@@ -46,6 +48,11 @@ class MainViewModel(val handle: SavedStateHandle,private val getUserInfoListUseC
         viewModelScope.launch {
             _sideEffect.send(mainScreenUiState)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("lilili", "MainViewModel-onCleared")
     }
 }
 

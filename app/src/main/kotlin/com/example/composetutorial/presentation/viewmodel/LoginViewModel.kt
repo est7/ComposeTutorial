@@ -1,5 +1,6 @@
 package com.example.composetutorial.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -52,6 +53,11 @@ class LoginViewModel(
             }
 
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("lilili", "LoginViewModel-onCleared")
     }
 }
 
