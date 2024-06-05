@@ -49,7 +49,7 @@ android {
     // Compose Compiler Gradle 插件的配置选项
     // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compiler.html#compose-compiler-options-dsl
     composeCompiler {
-        // enableStrongSkippingMode = true
+        enableStrongSkippingMode = false
 
         // reportsDestination = layout.buildDirectory.dir("compose_compiler")
 
