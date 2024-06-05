@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.junit5)
+    alias(libs.plugins.composeGuard)
 }
 
 android {
@@ -146,6 +147,8 @@ dependencies {
     implementation(libs.ktor.client.encoding)
     implementation(libs.ktor.client.cio)
 
+    //compose guard
+    implementation(libs.composeGuard.gradle)
 
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)

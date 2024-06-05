@@ -39,3 +39,16 @@
 ## tips 19:
 
 ## tips 20:
+
+
+
+
+# Compose Guard
+In an Android project, Compose Guard adds 3 tasks:
+
+<variant>ComposeCompilerGenerate (example ./gradlew releaseComposeCompilerGenerate)
+Generate golden compose metrics to compare against
+<variant>ComposeCompilerCheck (example ./gradlew releaseComposeCompilerCheck)
+Generates new metrics and compares against golden values
+./gradlew composeCompilerClean
+Deletes all compiler metrics
