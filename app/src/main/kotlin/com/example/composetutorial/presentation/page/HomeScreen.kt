@@ -3,6 +3,7 @@ package com.example.composetutorial.presentation.page
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,8 +53,8 @@ fun HomeScreen(uiState: MainScreenUiState, modifier: Modifier) {
 
         is MainScreenUiState.Success -> {
             LazyColumn {
-                items(100) {
-                    Text("Item $it")
+                items(uiState.composeTipsList) { composeTip ->
+                    Text(text = composeTip.desc)
                 }
             }
 

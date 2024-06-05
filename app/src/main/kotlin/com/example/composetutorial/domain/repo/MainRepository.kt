@@ -1,7 +1,6 @@
 package com.example.composetutorial.domain.repo
 
-import com.example.composetutorial.data.ComposeTipsItemDTO
-import com.example.composetutorial.data.dto.UserInfoDTO
+import com.example.composetutorial.data.dto.ComposeTipsItemDTO
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {

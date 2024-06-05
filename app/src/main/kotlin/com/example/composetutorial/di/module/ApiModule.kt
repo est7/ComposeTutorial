@@ -1,7 +1,9 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.data.remote.FakerUserInfoService
+import com.example.composetutorial.data.remote.IUserInfoService
 import com.example.composetutorial.data.remote.LoginService
-import com.example.composetutorial.data.remote.UserInfoService
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 /**
@@ -10,7 +12,8 @@ import org.koin.dsl.module
  * @date: 2024/6/4
  */
 val apiModule = module {
-    single { createService<UserInfoService>(get(), "/userinfo") }
+    single<IUserInfoService> { FakerUserInfoService(androidApplication()) }
+    // single<IUserInfoService> { createService<UserInfoService>(get(), "/userinfo") }
     single { createService<LoginService>(get(), "/login") }
     //...
 }

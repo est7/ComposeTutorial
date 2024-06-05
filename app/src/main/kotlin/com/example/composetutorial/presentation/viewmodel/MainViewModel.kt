@@ -3,7 +3,7 @@ package com.example.composetutorial.presentation.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composetutorial.data.ComposeTipsItemDTO
+import com.example.composetutorial.data.dto.ComposeTipsItemDTO
 import com.example.composetutorial.presentation.usecase.GetUserInfoListUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -22,6 +22,8 @@ import org.koin.dsl.module
 
 val networkModule = module {
     single(createdAtStart = true) { provideKtorClient() }
+    // 拦截器
+    // single { AuthInterceptor(get()) }
 }
 
 

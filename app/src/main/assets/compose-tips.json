@@ -1,0 +1,102 @@
+[
+  {
+    "id": "10001",
+    "path": "tips_01",
+    "desc": "在 Compose 中使用 remember 保存状态，避免重复计算。"
+  },
+  {
+    "id": "10002",
+    "path": "tips_02",
+    "desc": "使用 LazyColumn 而不是 Column 来显示大量数据以优化性能。"
+  },
+  {
+    "id": "10003",
+    "path": "tips_03",
+    "desc": "避免在 Composable 函数中执行耗时操作，如网络请求。"
+  },
+  {
+    "id": "10004",
+    "path": "tips_04",
+    "desc": "利用 derivedStateOf 创建依赖于其他状态的状态，减少不必要的重组。"
+  },
+  {
+    "id": "10005",
+    "path": "tips_05",
+    "desc": "使用键盘快捷键（如 Ctrl+D）快速复制 Composable 函数模板。"
+  },
+  {
+    "id": "10006",
+    "path": "tips_06",
+    "desc": "在 Modifier 中链式调用多个修饰符时，注意顺序对布局的影响。"
+  },
+  {
+    "id": "10007",
+    "path": "tips_07",
+    "desc": "通过记住 lambda 表达式（remember lambda）来避免重复创建相同的回调函数。"
+  },
+  {
+    "id": "10008",
+    "path": "tips_08",
+    "desc": "利用 animate*AsState 系列函数为状态变化添加动画效果，提升用户体验。"
+  },
+  {
+    "id": "10009",
+    "path": "tips_09",
+    "desc": "使用 Preview 注解在 Android Studio 中实时预览 Composable 组件的效果。"
+  },
+  {
+    "id": "10010",
+    "path": "tips_10",
+    "desc": "将重复使用的 UI 元素抽取成独立的 Composable 函数，保持代码整洁。"
+  },
+  {
+    "id": "10011",
+    "path": "tips_11",
+    "desc": "利用 crossfade 动画效果实现页面内容的平滑过渡。"
+  },
+  {
+    "id": "10012",
+    "path": "tips_12",
+    "desc": "通过 collectAsState 将 Flow 转换为 Compose 的状态对象，便于 UI 更新。"
+  },
+  {
+    "id": "10013",
+    "path": "tips_13",
+    "desc": "在 Composable 函数中使用 LocalContext.current 获取 Context 对象。"
+  },
+  {
+    "id": "10014",
+    "path": "tips_14",
+    "desc": "尽量减少 Composable 函数的参数，使用 state hoisting 提高重用性。"
+  },
+  {
+    "id": "10015",
+    "path": "tips_15",
+    "desc": "在处理长列表时使用 LazyRow/LazyColumn 提升性能和流畅度。"
+  },
+  {
+    "id": "10016",
+    "path": "tips_16",
+    "desc": "使用 rememberSaveable 在配置更改（如旋转屏幕）后保留状态。"
+  },
+  {
+    "id": "10017",
+    "path": "tips_17",
+    "desc": "通过结合 ConstraintLayout 实现复杂的 UI 布局。"
+  },
+  {
+    "id": "10018",
+    "path": "tips_18",
+    "desc": "利用 CompositionLocal 提供跨整个应用程序的依赖注入。"
+  },
+  {
+    "id": "10019",
+    "path": "tips_19",
+    "desc": "使用 `produceState` 将异步数据转换为 Compose 状态以简化数据加载。"
+  },
+  {
+    "id": "10020",
+    "path": "tips_20",
+    "desc": "定期更新 Compose 库版本，以便获得最新的功能和性能优化。"
+  }
+]

@@ -5,10 +5,15 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.composetutorial.navagation.Destination
+import com.example.composetutorial.presentation.feature.tips_01.Tips01Screen
+import com.example.composetutorial.presentation.feature.tips_02.Tips02Screen
+import com.example.composetutorial.presentation.feature.tips_03.Tips03Screen
+import com.example.composetutorial.presentation.feature.tips_20.Tips20Screen
 import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
 import com.example.composetutorial.presentation.page.MyProfileScreen
@@ -63,6 +68,40 @@ fun AppNavHost(
         }) {
             MyProfileScreen()
         }
+
+        createRoute(Destination.Tips_01.route) {
+            Tips01Screen()
+        }
+
+        createRoute(Destination.Tips_02.route) {
+            Tips02Screen()
+        }
+        createRoute(Destination.Tips_03.route) {
+            Tips03Screen()
+        }
+        createRoute(Destination.Tips_20.route) {
+            Tips20Screen()
+        }
+    }
+}
+
+
+fun NavGraphBuilder.createRoute(
+    route: String,
+    screen: @Composable () -> Unit
+) {
+    composable(
+        route = route,
+        enterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                targetOffset = { it / 4 }) + fadeOut()
+        }
+    ) {
+        screen()
     }
 }
 
