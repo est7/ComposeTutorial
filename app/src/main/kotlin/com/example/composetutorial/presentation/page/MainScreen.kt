@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.rememberNavController
 import com.example.composetutorial.R
 import com.example.composetutorial.navagation.Destination
 import com.example.composetutorial.uiwidget.ClickableIcon
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     onNavigate: (Destination) -> Unit,
 ) {
+    rememberNavController()
     val pagerState = rememberPagerState(initialPage = 0) { 3 }
     val scope = rememberCoroutineScope()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {

@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    testImplementation(libs.testng)
     compileOnly(libs.koin.annotations)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
