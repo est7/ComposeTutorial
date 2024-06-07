@@ -1,16 +1,49 @@
 package com.example.composetutorial.presentation.feature.tips_06
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Tips06Screen() {
-    Box(  modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,) {
-        Text("Tips03Screen")
+fun Tips06Screen(tips06ViewModel: Tips06ViewModel = koinViewModel()) {
+    val stateInCounter by tips06ViewModel.stateInCounter.collectAsState()
+    val asStateCounter by tips06ViewModel.asStateCounter.collectAsState()
+    val stateInCounterWithLifecycle by tips06ViewModel.stateInCounter.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        tips06ViewModel.startCounter()
+    }
+
+    Log.d("Tips06Screen", "stateInCounter: $stateInCounter")
+    Log.d("Tips06Screen", "asStateCounter: $asStateCounter")
+    Log.d("Tips06Screen", "stateInCounterWithLifecycle: $stateInCounterWithLifecycle")
+    Box(
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+    ) {
+        Column {
+            Text(text = "StateInCounter: $stateInCounter")
+            Text(text = "AsStateCounter: $asStateCounter")
+            Text(text = "StateInCounterWithLifecycle: $stateInCounterWithLifecycle")
+        }
+
     }
 }

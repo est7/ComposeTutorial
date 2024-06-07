@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 fun MyProfileScreen(
     modifier: Modifier = Modifier, viewModel: LoginViewModel = koinViewModel()
 ) {
-    val uiState = viewModel.myProfileScreenUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.myProfileScreenUiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.updateMyProfile()
     }
@@ -38,7 +39,7 @@ fun MyProfileScreen(
     }
 
     HandleMyProfileSideEffect(viewModel)
-    MyProfileScreen(uiState.value, modifier)
+    MyProfileScreen(uiState, modifier)
 }
 
 
