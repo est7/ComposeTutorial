@@ -71,7 +71,6 @@ fun HomeScreen(uiState: MainScreenUiState, modifier: Modifier) {
         }
 
         is MainScreenUiState.Success -> {
-
             SuccessContent(uiState)
 
         }

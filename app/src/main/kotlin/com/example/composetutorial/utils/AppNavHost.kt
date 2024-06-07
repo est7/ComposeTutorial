@@ -15,6 +15,7 @@ import com.example.composetutorial.presentation.feature.tips_02.Tips02Screen
 import com.example.composetutorial.presentation.feature.tips_03.Tips03Screen
 import com.example.composetutorial.presentation.feature.tips_04.Tips04Screen
 import com.example.composetutorial.presentation.feature.tips_05.Tips05Screen
+import com.example.composetutorial.presentation.feature.tips_05.Tips05aScreen
 import com.example.composetutorial.presentation.feature.tips_06.Tips06Screen
 import com.example.composetutorial.presentation.feature.tips_07.Tips07Screen
 import com.example.composetutorial.presentation.feature.tips_20.Tips20Screen
@@ -87,6 +88,10 @@ fun AppNavHost(
         createRoute(Destination.Tips_05.route) {
             Tips05Screen()
         }
+        createRoute(Destination.Tips_05a.route) {
+            Tips05aScreen()
+        }
+
         createRoute(Destination.Tips_06.route) {
             Tips06Screen()
         }

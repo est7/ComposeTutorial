@@ -36,6 +36,8 @@ var externalValUser = ExternalValUser(
     id = "1", age = 18, name = "John Doe", isAdmin = true, profilePictureUrl = "https://example.com/profile.jpg"
 )
 
+val externalTransformValUser = externalValUser.toInnerValUser()
+
 var innerValUser = InnerValUser(
     id = "1", age = 18, name = "John Doe", isAdmin = true, profilePictureUrl = "https://example.com/profile.jpg"
 )
@@ -76,21 +78,20 @@ fun Tips05Screen() {
 fun TestImmutableAndStableUserInfo() {
     val count = remember { mutableIntStateOf(0) }
 
-    Button(
-        interactionSource = NoRippleInteractionSource(),
-        onClick = {
-            count.intValue += 1
+    Button(interactionSource = NoRippleInteractionSource(), onClick = {
+        count.intValue += 1
 
-            //这里执行/注释，可以看出来 ExternalValUser即使是稳定的，也会 recompose,跟InnerValUser不同表现
-            // updateUser(count)
+        // 这里执行/注释，可以看出来 ExternalValUser即使是稳定的，也会 recompose,跟InnerValUser不同表现
+        // updateUser(count)
 
-        }) {
+    }) {
         Text(text = "Click me")
     }
     Text(text = "Count:${count.intValue}")
 
     ShowExternalValUser(externalValUser)
     ShowExternalVarUser(externalVarUser)
+    ShowTransformExternalValUser(externalTransformValUser)
     ShowInnerValUser(innerValUser)
     ShowInnerVarUser(innerVarUser)
     ShowImmutableValInnerUser(immutableValInnerUser)
@@ -134,7 +135,12 @@ fun ShowImmutableValInnerUser(immutableValInnerUser: InnerValImmutableUser) {
 fun ShowInnerValUser(innerValUser: InnerValUser) {
     Text(text = "Hello ${innerValUser.name}")
     Text(text = "Age: ${innerValUser.age}")
+}
 
+@Composable
+fun ShowTransformExternalValUser(externalTransformValUser: InnerValUser) {
+    Text(text = "Hello ${innerValUser.name}")
+    Text(text = "Age: ${innerValUser.age}")
 }
 
 @Composable

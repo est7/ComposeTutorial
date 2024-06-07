@@ -2,6 +2,7 @@ package com.example.composetutorial.presentation.feature.tips_05
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.example.externallib.ExternalValUser
 
 /**
  *
@@ -36,3 +37,10 @@ data class InnerVarStableUser(
 data class InnerValStableUser(
     val id: String, val age: Int, val name: String, val isAdmin: Boolean, val profilePictureUrl: String
 )
+
+
+fun ExternalValUser.toInnerValUser(): InnerValUser {
+    return InnerValUser(
+        id, age, name, isAdmin, profilePictureUrl = this.profilePictureUrl
+    )
+}

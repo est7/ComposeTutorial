@@ -12,6 +12,7 @@ sealed class Destination(val route: String) {
     data object Tips_03 : Destination("tips_03")
     data object Tips_04 : Destination("tips_04")
     data object Tips_05 : Destination("tips_05")
+    data object Tips_05a : Destination("tips_05a")
     data object Tips_06 : Destination("tips_06")
     data object Tips_07 : Destination("tips_07")
     data object Tips_08 : Destination("tips_08")
