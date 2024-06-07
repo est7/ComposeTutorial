@@ -105,6 +105,8 @@ android {
 
 
 dependencies {
+    //依赖 externalLib
+    implementation(project(":externalLib"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

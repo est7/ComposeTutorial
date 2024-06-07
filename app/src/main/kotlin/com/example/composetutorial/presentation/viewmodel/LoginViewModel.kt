@@ -1,9 +1,13 @@
 package com.example.composetutorial.presentation.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.composetutorial.data.dto.UserInfoDTO
 import com.example.composetutorial.presentation.usecase.LoginUseCase
 import com.example.composetutorial.presentation.usecase.LogoutUseCase
@@ -17,7 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    val handle: SavedStateHandle,
+    private val handle: SavedStateHandle,
     private val loginUseCase: LoginUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val updateMyInfoUseCase: UpdateMyInfoUseCase
@@ -30,17 +34,19 @@ class LoginViewModel(
     val sideEffect = _sideEffect.receiveAsFlow()
 
 
-    suspend fun login() {
+    fun login() {
         viewModelScope.launch {
             val success = loginUseCase("username", "password")
         }
     }
 
-    suspend fun logout() {
-        logoutUseCase.invoke()
+    fun logout() {
+        viewModelScope.launch {
+            logoutUseCase.invoke()
+        }
     }
 
-    suspend fun updateMyProfile() {
+    fun updateMyProfile() {
         viewModelScope.launch {
             _sideEffect.send(MyProfileSideEffect.ShowToast("updateMyProfile"))
             updateMyInfoUseCase.invoke("token").collect { it ->
@@ -54,6 +60,16 @@ class LoginViewModel(
 
         }
     }
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    val emailText = handle.saveable("emailText") {
+        mutableStateOf("")
+    }
+
+    fun onEmailTextChanged(email: String) {
+        emailText.value = email
+    }
+
 
     override fun onCleared() {
         super.onCleared()

@@ -13,6 +13,10 @@ import com.example.composetutorial.navagation.Destination
 import com.example.composetutorial.presentation.feature.tips_01.Tips01Screen
 import com.example.composetutorial.presentation.feature.tips_02.Tips02Screen
 import com.example.composetutorial.presentation.feature.tips_03.Tips03Screen
+import com.example.composetutorial.presentation.feature.tips_04.Tips04Screen
+import com.example.composetutorial.presentation.feature.tips_05.Tips05Screen
+import com.example.composetutorial.presentation.feature.tips_06.Tips06Screen
+import com.example.composetutorial.presentation.feature.tips_07.Tips07Screen
 import com.example.composetutorial.presentation.feature.tips_20.Tips20Screen
 import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
@@ -29,7 +33,8 @@ fun AppNavHost(
         navController = navController, startDestination = Destination.Main.route, modifier = modifier
     ) {
         composable(route = Destination.Main.route, enterTransition = {
-            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Down,
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
                 initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
             slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Up, targetOffset = { it / 4 }) + fadeOut()
@@ -42,8 +47,7 @@ fun AppNavHost(
         composable(route = Destination.Follow.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
             FollowScreen()
@@ -52,8 +56,7 @@ fun AppNavHost(
         composable(route = Destination.Settings.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
             SettingScreen()
@@ -62,8 +65,7 @@ fun AppNavHost(
         composable(route = Destination.MyProfile.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
             MyProfileScreen()
@@ -79,6 +81,20 @@ fun AppNavHost(
         createRoute(Destination.Tips_03.route) {
             Tips03Screen()
         }
+        createRoute(Destination.Tips_04.route) {
+            Tips04Screen()
+        }
+        createRoute(Destination.Tips_05.route) {
+            Tips05Screen()
+        }
+        createRoute(Destination.Tips_06.route) {
+            Tips06Screen()
+        }
+        createRoute(Destination.Tips_07.route) {
+            Tips07Screen()
+        }
+
+
         createRoute(Destination.Tips_20.route) {
             Tips20Screen()
         }
@@ -87,20 +103,13 @@ fun AppNavHost(
 
 
 fun NavGraphBuilder.createRoute(
-    route: String,
-    screen: @Composable () -> Unit
+    route: String, screen: @Composable () -> Unit
 ) {
-    composable(
-        route = route,
-        enterTransition = {
-            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
-                targetOffset = { it / 4 }) + fadeOut()
-        }
-    ) {
+    composable(route = route, enterTransition = {
+        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
+    }, exitTransition = {
+        slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, targetOffset = { it / 4 }) + fadeOut()
+    }) {
         screen()
     }
 }
