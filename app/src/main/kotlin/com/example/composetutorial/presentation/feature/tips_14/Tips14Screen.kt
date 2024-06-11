@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.composetutorial.presentation.feature.tips_08.BadLoginScreen
 
 @Composable
 fun Tips14Screen() {
@@ -64,8 +64,7 @@ fun Tips14BadLoginScreen(state: Tips14BadLoginState) {
 
 @Composable
 fun TextInputField(value: String, onValueChange: () -> Unit, label: String) {
-
-
+    TextField(value = value, onValueChange = { onValueChange() }, label = { Text(label) })
 }
 
 

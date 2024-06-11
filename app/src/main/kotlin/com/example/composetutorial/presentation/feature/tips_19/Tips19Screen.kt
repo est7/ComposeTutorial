@@ -19,7 +19,7 @@ fun Tips19Screen() {
             .background(color = MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
-        com.example.composetutorial.presentation.feature.tips_20.Tips19MainScaffoldScreen()
+        Tips19MainScaffoldScreen()
     }
 }
 
@@ -35,7 +35,7 @@ fun Tips19MainScaffoldScreen() {
                 .padding(paddingValues),
             contentAlignment = Alignment.Center,
         ) {
-            com.example.composetutorial.presentation.feature.tips_20.Tips19MainScreen()
+            Tips19MainScreen()
         }
     }
 }

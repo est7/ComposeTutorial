@@ -103,5 +103,25 @@
     "id": "10020",
     "path": "tips_20",
     "desc": "不要在可组合函数中使用 return"
+  },
+  {
+    "id": "10021",
+    "path": "tips_21",
+    "desc": "利用 animate*AsState 系列函数为状态变化添加动画效果，提升用户体验。"
+  },
+  {
+    "id": "10022",
+    "path": "tips_22",
+    "desc": "使用 `produceState` 将异步数据转换为 Compose 状态以简化数据加载"
+  },
+  {
+    "id": "10023",
+    "path": "tips_23",
+    "desc": "利用 derivedStateOf 创建依赖于其他状态的状态，减少不必要的重组。"
+  },
+  {
+    "id": "10024",
+    "path": "tips_24",
+    "desc": "利用 CompositionLocal 提供跨整个应用程序的依赖注入。 "
   }
 ]

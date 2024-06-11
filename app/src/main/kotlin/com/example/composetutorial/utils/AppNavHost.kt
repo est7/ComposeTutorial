@@ -30,8 +30,12 @@ import com.example.composetutorial.presentation.feature.tips_16.Tips16Screen
 import com.example.composetutorial.presentation.feature.tips_17.Tips17Screen
 import com.example.composetutorial.presentation.feature.tips_17.Tips17aScreen
 import com.example.composetutorial.presentation.feature.tips_18.Tips18Screen
-import com.example.composetutorial.presentation.feature.tips_20.Tips19Screen
+import com.example.composetutorial.presentation.feature.tips_19.Tips19Screen
 import com.example.composetutorial.presentation.feature.tips_20.Tips20Screen
+import com.example.composetutorial.presentation.feature.tips_21.Tips21Screen
+import com.example.composetutorial.presentation.feature.tips_22.Tips22Screen
+import com.example.composetutorial.presentation.feature.tips_23.Tips23Screen
+import com.example.composetutorial.presentation.feature.tips_24.Tips24Screen
 import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
 import com.example.composetutorial.presentation.page.MyProfileScreen
@@ -152,6 +156,18 @@ fun AppNavHost(
         }
         createRoute(Destination.Tips_20.route) {
             Tips20Screen()
+        }
+        createRoute(Destination.Tips_20.route) {
+            Tips21Screen()
+        }
+        createRoute(Destination.Tips_20.route) {
+            Tips22Screen()
+        }
+        createRoute(Destination.Tips_20.route) {
+            Tips23Screen()
+        }
+        createRoute(Destination.Tips_20.route) {
+            Tips24Screen()
         }
     }
 }
