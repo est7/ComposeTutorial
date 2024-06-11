@@ -2,106 +2,106 @@
   {
     "id": "10001",
     "path": "tips_01",
-    "desc": "在 Compose 中使用 remember 保存状态，避免重复计算。"
+    "desc": "不要在 non-compose 代码中调用 composable functions"
   },
   {
     "id": "10002",
     "path": "tips_02",
-    "desc": "使用 LazyColumn 而不是 Column 来显示大量数据以优化性能。"
+    "desc": "不要使用mutablelist 作为 state"
   },
   {
     "id": "10003",
     "path": "tips_03",
-    "desc": "避免在 Composable 函数中执行耗时操作，如网络请求。"
+    "desc": "要根据现实情况把 State 记忆,使用 rememberSaveable 在配置更改（如旋转屏幕）后保留状态。"
   },
   {
     "id": "10004",
     "path": "tips_04",
-    "desc": "利用 derivedStateOf 创建依赖于其他状态的状态，减少不必要的重组。"
+    "desc": "在LazyColumn 中记得使用 key"
   },
   {
     "id": "10005",
     "path": "tips_05",
-    "desc": "使用键盘快捷键（如 Ctrl+D）快速复制 Composable 函数模板。"
+    "desc": "不要在外部 module 里使用 unstable class"
   },
   {
     "id": "100051",
     "path": "tips_05a",
-    "desc": "使用键盘快捷键（如 Ctrl+Alt+L）格式化代码，保持代码风格一致。"
+    "desc": "不要在外部 module 里使用 unstable class,更多的扩展训练"
   },
   {
     "id": "10006",
     "path": "tips_06",
-    "desc": "在 Modifier 中链式调用多个修饰符时，注意顺序对布局的影响。"
+    "desc": "不要使用collectAsState(),而是 collectAsStateWithLifecycle"
   },
   {
     "id": "10007",
     "path": "tips_07",
-    "desc": "通过记住 lambda 表达式（remember lambda）来避免重复创建相同的回调函数。"
+    "desc": "记得在在Graphicslayer之内进行动画变换"
   },
   {
     "id": "10008",
     "path": "tips_08",
-    "desc": "利用 animate*AsState 系列函数为状态变化添加动画效果，提升用户体验。"
+    "desc": "不要使用注入工具在screen 级别的compose 组件上创建viewmodel"
   },
   {
     "id": "10009",
     "path": "tips_09",
-    "desc": "使用 Preview 注解在 Android Studio 中实时预览 Composable 组件的效果。"
+    "desc": "不要在子可组合项中设置扩展尺寸"
   },
   {
     "id": "10010",
     "path": "tips_10",
-    "desc": "将重复使用的 UI 元素抽取成独立的 Composable 函数，保持代码整洁。"
+    "desc": "记得在重的 computations  compose中使用 remember"
   },
   {
     "id": "10011",
     "path": "tips_11",
-    "desc": "利用 crossfade 动画效果实现页面内容的平滑过渡。"
+    "desc": "不要过度使用硬编码 *.dp"
   },
   {
     "id": "10012",
     "path": "tips_12",
-    "desc": "通过 collectAsState 将 Flow 转换为 Compose 的状态对象，便于 UI 更新。"
+    "desc": "不要忘记设置触摸目标的大小"
   },
   {
     "id": "10013",
     "path": "tips_13",
-    "desc": "在 Composable 函数中使用 LocalContext.current 获取 Context 对象。"
+    "desc": "记得检查 fragment 中的 decomposition 策略"
   },
   {
     "id": "10014",
     "path": "tips_14",
-    "desc": "尽量减少 Composable 函数的参数，使用 state hoisting 提高重用性。"
+    "desc": "不要把入参命名方法混用"
   },
   {
     "id": "10015",
     "path": "tips_15",
-    "desc": "在处理长列表时使用 LazyRow/LazyColumn 提升性能和流畅度。"
+    "desc": "不要忘记将colums/row设置为可滚动"
   },
   {
     "id": "10016",
     "path": "tips_16",
-    "desc": "使用 rememberSaveable 在配置更改（如旋转屏幕）后保留状态。"
+    "desc": "最好在 可组合项中写明 lambda 的名字"
   },
   {
     "id": "10017",
     "path": "tips_17",
-    "desc": "通过结合 ConstraintLayout 实现复杂的 UI 布局。"
+    "desc": "避免错误使用rememberCoroutineScope"
   },
   {
     "id": "10018",
     "path": "tips_18",
-    "desc": "利用 CompositionLocal 提供跨整个应用程序的依赖注入。"
+    "desc": "涉及频繁变化的状态传递给子 composable 时，避免不必要的重新组合（recomposition）。"
   },
   {
     "id": "10019",
     "path": "tips_19",
-    "desc": "使用 `produceState` 将异步数据转换为 Compose 状态以简化数据加载。"
+    "desc": "如果可以，记得使用scaffold 的 paddingValues"
   },
   {
     "id": "10020",
     "path": "tips_20",
-    "desc": "定期更新 Compose 库版本，以便获得最新的功能和性能优化。"
+    "desc": "不要在可组合函数中使用 return"
   }
 ]

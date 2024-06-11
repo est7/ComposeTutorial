@@ -1,4 +1,4 @@
-package com.example.composetutorial
+package com.example.composetutorial.presentation.feature.tips_13
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.composetutorial.presentation.feature.tips_13.Tips13Fragment
+import com.example.composetutorial.R
 
 class Tips13Activity : AppCompatActivity() {
     @SuppressLint("CommitTransaction")

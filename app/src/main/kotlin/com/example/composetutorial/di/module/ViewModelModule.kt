@@ -1,9 +1,9 @@
 package com.example.composetutorial.di.module
 
 import com.example.composetutorial.presentation.feature.tips_06.Tips06ViewModel
+import com.example.composetutorial.presentation.feature.tips_17.Tips17ViewModel
 import com.example.composetutorial.presentation.viewmodel.LoginViewModel
 import com.example.composetutorial.presentation.viewmodel.MainViewModel
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -17,4 +17,6 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel { Tips06ViewModel(get()) }
+    viewModel { Tips17ViewModel(get()) }
+
 }

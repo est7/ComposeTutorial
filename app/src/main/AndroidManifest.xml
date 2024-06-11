@@ -14,7 +14,7 @@
         android:theme="@style/Theme.ComposeTutorial"
         tools:targetApi="31">
         <activity
-            android:name=".Tips13Activity"
+            android:name=".presentation.feature.tips_13.Tips13Activity"
             android:exported="false" />
 
         <provider

@@ -28,8 +28,9 @@ import com.example.composetutorial.presentation.feature.tips_14.Tips14Screen
 import com.example.composetutorial.presentation.feature.tips_15.Tips15Screen
 import com.example.composetutorial.presentation.feature.tips_16.Tips16Screen
 import com.example.composetutorial.presentation.feature.tips_17.Tips17Screen
+import com.example.composetutorial.presentation.feature.tips_17.Tips17aScreen
 import com.example.composetutorial.presentation.feature.tips_18.Tips18Screen
-import com.example.composetutorial.presentation.feature.tips_19.Tips19Screen
+import com.example.composetutorial.presentation.feature.tips_20.Tips19Screen
 import com.example.composetutorial.presentation.feature.tips_20.Tips20Screen
 import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
@@ -139,6 +140,9 @@ fun AppNavHost(
         }
         createRoute(Destination.Tips_17.route) {
             Tips17Screen()
+        }
+        createRoute(Destination.Tips_17a.route) {
+            Tips17aScreen()
         }
         createRoute(Destination.Tips_18.route) {
             Tips18Screen()
