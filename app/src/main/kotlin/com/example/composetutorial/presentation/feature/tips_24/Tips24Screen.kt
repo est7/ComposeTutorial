@@ -17,7 +17,7 @@ fun Tips24Screen() {
         contentAlignment = Alignment.Center,
     ) {
         Button(onClick = {
-            navController.navigate("tips_17a")
+            navController.navigate("tips_17")
         }) {
             Text("Navigate to Tips24Screen")
         }
