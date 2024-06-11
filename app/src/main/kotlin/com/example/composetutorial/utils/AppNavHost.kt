@@ -157,16 +157,16 @@ fun AppNavHost(
         createRoute(Destination.Tips_20.route) {
             Tips20Screen()
         }
-        createRoute(Destination.Tips_20.route) {
+        createRoute(Destination.Tips_21.route) {
             Tips21Screen()
         }
-        createRoute(Destination.Tips_20.route) {
+        createRoute(Destination.Tips_22.route) {
             Tips22Screen()
         }
-        createRoute(Destination.Tips_20.route) {
+        createRoute(Destination.Tips_23.route) {
             Tips23Screen()
         }
-        createRoute(Destination.Tips_20.route) {
+        createRoute(Destination.Tips_24.route) {
             Tips24Screen()
         }
     }

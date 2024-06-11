@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +29,7 @@ fun Tips21Screen() {
     ) {
         Column {
             TipsBadNoAnimateComponent()
+            HorizontalDivider()
             TipsGoodAnimateComponent()
         }
     }
@@ -38,9 +40,6 @@ fun Tips21Screen() {
 fun TipsBadNoAnimateComponent() {
     var enabled by remember { mutableStateOf(false) }
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = { enabled = !enabled }) {
             Text("Toggle")
@@ -58,9 +57,6 @@ fun TipsGoodAnimateComponent() {
     var enabled by remember { mutableStateOf(false) }
     val size by animateDpAsState(targetValue = if (enabled) 100.dp else 50.dp, label = "")
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = { enabled = !enabled }) {
             Text("Toggle")

@@ -1,17 +1,15 @@
 package com.example.composetutorial.presentation.feature.tips_17
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.example.composetutorial.data.dto.UserInfoDTO
+import com.example.composetutorial.presentation.viewmodel.MainScreenSideEffect
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -23,8 +21,11 @@ class Tips17ViewModel(val handle: SavedStateHandle) : ViewModel() {
     private val _tips17UiState = MutableStateFlow<Tips17UiState>(Tips17UiState.Initial)
     val tips17UiState = _tips17UiState.asStateFlow()
 
-    private val _tips17SideEffect = MutableStateFlow<Tips17SideEffect?>(null)
-    val tips17SideEffect = _tips17SideEffect.asStateFlow()
+
+    private val _tips17SideEffect: Channel<Tips17SideEffect> = Channel()
+    val tips17SideEffect = _tips17SideEffect.receiveAsFlow()
+
+
 
     fun login(username: String, password: String) {
         // 随机失败 50% 的概率
@@ -38,21 +39,29 @@ class Tips17ViewModel(val handle: SavedStateHandle) : ViewModel() {
                 val userInfo = UserInfoDTO("nick", 18, "", "")
                 _tips17UiState.value = Tips17UiState.Success(userInfo)
                 // 带参数 name = userInfo.name
-                _tips17SideEffect.value = Tips17SideEffect.Navigate("tips_17a", userInfo)
+                _tips17SideEffect.send(Tips17SideEffect.Navigate("tips_17a", userInfo))
             }
         }
     }
 
+
+
+    private val _tips17SuspendUiState = MutableStateFlow<Tips17UiState>(Tips17UiState.Initial)
+    val tips17SuspendUiState = _tips17SuspendUiState.asStateFlow()
+
+    private val _tips17SuspendSideEffect: Channel<Tips17SideEffect> = Channel()
+    val tips17SuspendSideEffect = _tips17SuspendSideEffect.receiveAsFlow()
+
     suspend fun loginSuspend(username: String, password: String) {
-        _tips17UiState.value = Tips17UiState.Loading
+        _tips17SuspendUiState.value = Tips17UiState.Loading
         delay(2000)
         val random = (0..1).random()
         if (random == 0) {
-            _tips17UiState.value = Tips17UiState.Error("login failed")
+            _tips17SuspendUiState.value = Tips17UiState.Error("login failed")
         } else {
             val userInfo = UserInfoDTO("nick", 18, "", "")
-            _tips17UiState.value = Tips17UiState.Success(userInfo)
-            _tips17SideEffect.value = Tips17SideEffect.Navigate("tips_17a",userInfo)
+            _tips17SuspendUiState.value = Tips17UiState.Success(userInfo)
+            _tips17SuspendSideEffect.trySend(Tips17SideEffect.Navigate("tips_17a", userInfo))
         }
     }
 }

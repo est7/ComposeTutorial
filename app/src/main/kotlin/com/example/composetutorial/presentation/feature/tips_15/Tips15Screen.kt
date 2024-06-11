@@ -20,7 +20,6 @@ fun Tips15Screen() {
     ) {
         Row {
             Column(
-                modifier = Modifier.fillMaxWidth()
             ) {
                 for (i in 1..50) {
                     Tips15ListItem(i)
@@ -29,7 +28,6 @@ fun Tips15Screen() {
             }
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
                 for (i in 1..50) {
@@ -45,6 +43,6 @@ fun Tips15Screen() {
 @Composable
 fun Tips15ListItem(count: Int) {
     Text(
-        text = "List item$count", modifier = Modifier.fillMaxWidth()
+        text = "List item$count"
     )
 }

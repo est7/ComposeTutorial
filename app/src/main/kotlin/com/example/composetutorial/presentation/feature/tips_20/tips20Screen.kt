@@ -31,7 +31,6 @@ fun Tips20Screen() {
 fun Tips20BadLoginScreen(loginError: String?) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .padding(16.dp)
     ) {
         BasicTextField(
@@ -53,7 +52,6 @@ fun Tips20BadLoginScreen(loginError: String?) {
 fun Tips20GoodLoginScreen(loginError: String?) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .padding(16.dp)
     ) {
         BasicTextField(
