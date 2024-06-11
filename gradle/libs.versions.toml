@@ -24,6 +24,8 @@ compose-guard = "1.1.0"
 testng = "7.10.2"
 appcompat = "1.7.0"
 material = "1.12.0"
+activity = "1.9.0"
+constraintlayout = "2.1.4"
 
 
 [libraries]
@@ -87,6 +89,8 @@ androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", nam
 testng = { group = "org.testng", name = "testng", version.ref = "testng" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
