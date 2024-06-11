@@ -18,6 +18,18 @@ import com.example.composetutorial.presentation.feature.tips_05.Tips05Screen
 import com.example.composetutorial.presentation.feature.tips_05.Tips05aScreen
 import com.example.composetutorial.presentation.feature.tips_06.Tips06Screen
 import com.example.composetutorial.presentation.feature.tips_07.Tips07Screen
+import com.example.composetutorial.presentation.feature.tips_08.Tips08Screen
+import com.example.composetutorial.presentation.feature.tips_09.Tips09Screen
+import com.example.composetutorial.presentation.feature.tips_10.Tips10Screen
+import com.example.composetutorial.presentation.feature.tips_11.Tips11Screen
+import com.example.composetutorial.presentation.feature.tips_12.Tips12Screen
+import com.example.composetutorial.presentation.feature.tips_13.Tips13Screen
+import com.example.composetutorial.presentation.feature.tips_14.Tips14Screen
+import com.example.composetutorial.presentation.feature.tips_15.Tips15Screen
+import com.example.composetutorial.presentation.feature.tips_16.Tips16Screen
+import com.example.composetutorial.presentation.feature.tips_17.Tips17Screen
+import com.example.composetutorial.presentation.feature.tips_18.Tips18Screen
+import com.example.composetutorial.presentation.feature.tips_19.Tips19Screen
 import com.example.composetutorial.presentation.feature.tips_20.Tips20Screen
 import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
@@ -34,8 +46,7 @@ fun AppNavHost(
         navController = navController, startDestination = Destination.Main.route, modifier = modifier
     ) {
         composable(route = Destination.Main.route, enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Down,
                 initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
             slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Up, targetOffset = { it / 4 }) + fadeOut()
@@ -48,7 +59,8 @@ fun AppNavHost(
         composable(route = Destination.Follow.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
-            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down,
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
             FollowScreen()
@@ -57,7 +69,8 @@ fun AppNavHost(
         composable(route = Destination.Settings.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
-            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down,
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
             SettingScreen()
@@ -66,7 +79,8 @@ fun AppNavHost(
         composable(route = Destination.MyProfile.route, enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, initialOffset = { it / 4 }) + fadeIn()
         }, exitTransition = {
-            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down,
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
             MyProfileScreen()
@@ -75,7 +89,6 @@ fun AppNavHost(
         createRoute(Destination.Tips_01.route) {
             Tips01Screen()
         }
-
         createRoute(Destination.Tips_02.route) {
             Tips02Screen()
         }
@@ -91,15 +104,48 @@ fun AppNavHost(
         createRoute(Destination.Tips_05a.route) {
             Tips05aScreen()
         }
-
         createRoute(Destination.Tips_06.route) {
             Tips06Screen()
         }
         createRoute(Destination.Tips_07.route) {
             Tips07Screen()
         }
-
-
+        createRoute(Destination.Tips_08.route) {
+            Tips08Screen()
+        }
+        createRoute(Destination.Tips_09.route) {
+            Tips09Screen()
+        }
+        createRoute(Destination.Tips_10.route) {
+            Tips10Screen()
+        }
+        createRoute(Destination.Tips_11.route) {
+            Tips11Screen()
+        }
+        createRoute(Destination.Tips_12.route) {
+            Tips12Screen()
+        }
+        createRoute(Destination.Tips_13.route) {
+            Tips13Screen()
+        }
+        createRoute(Destination.Tips_14.route) {
+            Tips14Screen()
+        }
+        createRoute(Destination.Tips_15.route) {
+            Tips15Screen()
+        }
+        createRoute(Destination.Tips_16.route) {
+            Tips16Screen()
+        }
+        createRoute(Destination.Tips_17.route) {
+            Tips17Screen()
+        }
+        createRoute(Destination.Tips_18.route) {
+            Tips18Screen()
+        }
+        createRoute(Destination.Tips_19.route) {
+            Tips19Screen()
+        }
         createRoute(Destination.Tips_20.route) {
             Tips20Screen()
         }

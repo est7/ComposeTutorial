@@ -71,6 +71,31 @@ class LoginViewModel(
     }
 
 
+    fun onEvent(event: LoginEvent) {
+        when (event) {
+            is LoginEvent.OnEmailChanged -> {
+                onEmailTextChanged(event.email)
+            }
+
+            is LoginEvent.OnLoginClicked -> {
+                login()
+            }
+
+            is LoginEvent.OnLogoutClicked -> {
+                logout()
+            }
+
+            is LoginEvent.OnUpdateMyProfileClicked -> {
+                updateMyProfile()
+            }
+
+            is LoginEvent.OnPasswordChanged -> {
+                // todo
+            }
+        }
+
+    }
+
     override fun onCleared() {
         super.onCleared()
         Log.d("lilili", "LoginViewModel-onCleared")
@@ -87,4 +112,13 @@ sealed class MyProfileScreenUiState {
 sealed class MyProfileSideEffect {
     data class ShowToast(val message: String) : MyProfileSideEffect()
     data class NavigateTo(val path: String) : MyProfileSideEffect()
+}
+
+
+sealed class LoginEvent {
+    data class OnEmailChanged(val email: String) : LoginEvent()
+    data class OnPasswordChanged(val password: String) : LoginEvent()
+    data object OnLoginClicked : LoginEvent()
+    data object OnLogoutClicked : LoginEvent()
+    data object OnUpdateMyProfileClicked : LoginEvent()
 }
