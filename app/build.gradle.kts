@@ -153,6 +153,9 @@ dependencies {
     implementation(libs.ktor.client.encoding)
     implementation(libs.ktor.client.cio)
 
+    //immutableList
+    implementation(libs.kotlinx.collections.immutable)
+
     //compose guard
     implementation(libs.composeGuard.gradle)
 

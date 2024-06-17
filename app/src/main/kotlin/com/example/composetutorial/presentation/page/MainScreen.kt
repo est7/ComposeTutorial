@@ -80,14 +80,16 @@ fun MainScreen(
         }
     }) { innerPadding ->
         Column(
-            Modifier.fillMaxSize().padding(innerPadding)
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
         ) {
             HorizontalPager(
                 beyondViewportPageCount = 3,
                 state = pagerState, modifier = Modifier.fillMaxSize()
             ) { index ->
                 when (index) {
-                    0 ->HomeScreen()
+                    0 -> HomeScreen()
                     1 -> SubFollowScreen()
                     2 -> SettingScreen()
                 }

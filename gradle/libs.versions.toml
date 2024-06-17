@@ -1,17 +1,17 @@
 [versions]
-agp = "8.5.0-rc01"
+agp = "8.5.0"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "5.10.2"
 junitVersion = "1.1.5"
-lifecycleRuntimeKtx = "2.8.1"
+lifecycleRuntimeKtx = "2.8.2"
 activityCompose = "1.9.0"
 composeBom = "2024.05.00-alpha03"
 ksp = "2.0.0-1.0.21"
 ktor = "2.3.11"
 koin = "3.6.0-wasm-alpha2"
 koinKsp = "1.3.1"
-kotest = "5.9.0"
+kotest = "5.9.1"
 mockk = "1.13.11"
 androidx-test-runner = "1.5.2"
 androidx-test-espresso = "3.5.1"
@@ -19,14 +19,14 @@ android-junit5 = "1.10.0.0"
 androidx-datastore = "1.1.1"
 nav_version = "2.7.7"
 navigationCompose = "2.7.7"
-lifecycleRuntimeComposeAndroid = "2.8.1"
-compose-guard = "1.1.0"
+lifecycleRuntimeComposeAndroid = "2.8.2"
+compose-guard = "2.0.0"
 testng = "7.10.2"
 appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
-
+kotlinx-collections-immutable = "0.3.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,7 +34,6 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 #androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "composeBom" }
-
 
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -71,6 +70,8 @@ koin-ktor = { group = "io.insert-koin", name = "koin-ktor", version.ref = "koin"
 koin-logger-slf4j = { group = "io.insert-koin", name = "koin-logger-slf4j", version.ref = "koin" }
 koin-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
 
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+
 # compose-gurad
 composeGuard-gradle = { module = "com.joetr.compose.guard:com.joetr.compose.guard.gradle.plugin", version.ref = "compose-guard" }
 # Testing
@@ -91,6 +92,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

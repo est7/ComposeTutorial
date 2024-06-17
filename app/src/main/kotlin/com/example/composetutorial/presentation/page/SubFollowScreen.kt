@@ -39,6 +39,7 @@ import com.example.composetutorial.presentation.page.common.LoadingPage
 import com.example.composetutorial.presentation.viewmodel.FollowSubPageScreenUiState
 import com.example.composetutorial.presentation.viewmodel.ListLoadState
 import com.example.composetutorial.presentation.viewmodel.SubFollowViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -65,12 +66,10 @@ fun SubFollowScreen(
                 // viewModel.refreshSubFollowPageList(type = "follow")
             }
             onRefresh = {
-                Log.d("SubFollowScreen", "onRefresh")
                 viewModel.refreshSubFollowPageList(type = "follow")
             }
 
             onLoadMore = {
-                Log.d("SubFollowScreen", "onLoadMore")
                 viewModel.loadMoreFollowSubPageList(type = "follow")
             }
         }
@@ -92,14 +91,17 @@ fun FollowScreen(uiState: FollowSubPageScreenUiState, onClickBuilder: FollowItem
             state = uiState.listState,
             onClickBuilder = onClickBuilder,
             onRefresh = {
+                Log.d("SubFollowScreen", "onRefresh")
                 onClickBuilder.onRefresh?.invoke()
             },
             onLoadMore = {
+                Log.d("SubFollowScreen", "onLoadMore")
                 onClickBuilder.onLoadMore?.invoke()
             })
 
         is FollowSubPageScreenUiState.Empty -> EmptyPage()
         is FollowSubPageScreenUiState.LoadFailed -> FailedPage(message = uiState.message, onClickRetry = { })
+        FollowSubPageScreenUiState.EmptyLoading -> LoadingPage()
     }
 }
 
@@ -107,7 +109,7 @@ fun FollowScreen(uiState: FollowSubPageScreenUiState, onClickBuilder: FollowItem
 @Composable
 fun SubFollowList(
     modifier: Modifier = Modifier,
-    data: List<ComposeTipsItemDTO>,
+    data: ImmutableList<ComposeTipsItemDTO>,
     state: ListLoadState,
     onClickBuilder: FollowItemClick,
     onRefresh: () -> Unit,
@@ -118,7 +120,8 @@ fun SubFollowList(
         modifier = modifier, state = pullToRefreshState, isRefreshing = state.isGettingRefreshing, onRefresh = onRefresh
     ) {
         val lazyListState = rememberLazyListState()
-        Log.d("SubFollowList", "data=${data.hashCode()}")
+        Log.d("SubFollowList", "state=${state}")
+        Log.d("SubFollowList", "data=${data}")
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(), state = lazyListState
@@ -135,7 +138,15 @@ fun SubFollowList(
             )
         }
 
-        LoadMoreListener(lazyListState, data.size, onLoadMore, state.isNoMoreData, state.isGettingLoadingMore)
+        Log.d("SubFollowList", "data.size=${data.size}")
+        Log.d("SubFollowList", "data=${data.hashCode()}")
+        LoadMoreListener(
+            lazyListState = lazyListState,
+            listSize = data.size,
+            onLoadMore = onLoadMore,
+            noMoreData = state.isNoMoreData,
+            isLoadingMore = state.isGettingLoadingMore
+        )
     }
 }
 
@@ -143,9 +154,11 @@ fun SubFollowList(
 fun LoadMoreListener(
     lazyListState: LazyListState, listSize: Int, onLoadMore: () -> Unit, noMoreData: Boolean, isLoadingMore: Boolean
 ) {
-    LaunchedEffect(lazyListState) {
+    LaunchedEffect(listSize) {
         snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }
             .map { it.lastOrNull()?.index }.distinctUntilChanged().collect { index ->
+                Log.d("LoadMoreListener", "index=$index")
+                Log.d("LoadMoreListener", "listSize=$listSize")
                 if (index == listSize - 1 && !noMoreData && !isLoadingMore) {
                     onLoadMore()
                 }

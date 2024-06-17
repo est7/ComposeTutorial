@@ -1,7 +1,9 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.data.FollowRepositoryImpl
 import com.example.composetutorial.data.LoginRepositoryImpl
 import com.example.composetutorial.data.MainRepositoryImpl
+import com.example.composetutorial.domain.repo.FollowRepository
 import com.example.composetutorial.domain.repo.LoginRepository
 import com.example.composetutorial.domain.repo.MainRepository
 import org.koin.dsl.module
@@ -14,5 +16,6 @@ import org.koin.dsl.module
 val repositoryModule = module {
     single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
     single<MainRepository> { MainRepositoryImpl(get()) }
+    single<FollowRepository> { FollowRepositoryImpl(get()) }
 }
 
