@@ -85,22 +85,24 @@ fun SubFollowScreen(
 
 @Composable
 fun FollowScreen(uiState: FollowSubPageScreenUiState, onClickBuilder: FollowItemClick) {
+    Log.d("SubFollowScreen", "FollowScreen: uiState = $uiState")
     when (uiState) {
         FollowSubPageScreenUiState.Initial -> LoadingPage()
         is FollowSubPageScreenUiState.Loaded -> SubFollowList(data = uiState.data,
             state = uiState.listState,
             onClickBuilder = onClickBuilder,
             onRefresh = {
-                Log.d("SubFollowScreen", "onRefresh")
                 onClickBuilder.onRefresh?.invoke()
             },
             onLoadMore = {
-                Log.d("SubFollowScreen", "onLoadMore")
                 onClickBuilder.onLoadMore?.invoke()
             })
 
         is FollowSubPageScreenUiState.Empty -> EmptyPage()
-        is FollowSubPageScreenUiState.LoadFailed -> FailedPage(message = uiState.message, onClickRetry = { })
+        is FollowSubPageScreenUiState.LoadFailed -> FailedPage(message = uiState.message, onClickRetry = {
+            onClickBuilder.onRefresh?.invoke()
+        })
+
         FollowSubPageScreenUiState.EmptyLoading -> LoadingPage()
     }
 }
@@ -120,9 +122,6 @@ fun SubFollowList(
         modifier = modifier, state = pullToRefreshState, isRefreshing = state.isGettingRefreshing, onRefresh = onRefresh
     ) {
         val lazyListState = rememberLazyListState()
-        Log.d("SubFollowList", "state=${state}")
-        Log.d("SubFollowList", "data=${data}")
-
         LazyColumn(
             modifier = Modifier.fillMaxSize(), state = lazyListState
         ) {
@@ -131,15 +130,12 @@ fun SubFollowList(
             }
 
             listFooter(
-                isLoadingMore = state.isGettingLoadingMore,
+                isGettingLoadingMore = state.isGettingLoadingMore,
                 noMoreData = state.isNoMoreData,
-                loadFailed = state.isLoadFailed,
+                loadFailed = state.isLoadingMoreLoadFailed,
                 errorMessage = (state as? ListLoadState.LoadingMoreLoadFailed)?.message
             )
         }
-
-        Log.d("SubFollowList", "data.size=${data.size}")
-        Log.d("SubFollowList", "data=${data.hashCode()}")
         LoadMoreListener(
             lazyListState = lazyListState,
             listSize = data.size,
@@ -157,8 +153,6 @@ fun LoadMoreListener(
     LaunchedEffect(listSize) {
         snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }
             .map { it.lastOrNull()?.index }.distinctUntilChanged().collect { index ->
-                Log.d("LoadMoreListener", "index=$index")
-                Log.d("LoadMoreListener", "listSize=$listSize")
                 if (index == listSize - 1 && !noMoreData && !isLoadingMore) {
                     onLoadMore()
                 }
@@ -167,14 +161,18 @@ fun LoadMoreListener(
 }
 
 fun LazyListScope.listFooter(
-    isLoadingMore: Boolean,
+    isGettingLoadingMore: Boolean,
     noMoreData: Boolean,
     loadFailed: Boolean,
     errorMessage: String?,
     modifier: Modifier = Modifier,
 ) {
+    Log.d("FollowScreen-isLoadingMore", "isLoadingMore=$isGettingLoadingMore")
+    Log.d("FollowScreen-noMoreData", "noMoreData=$noMoreData")
+    Log.d("FollowScreen-loadFailed", "loadFailed=$loadFailed")
+    Log.d("FollowScreen-errorMessage", "errorMessage=$errorMessage")
 
-    if (isLoadingMore) {
+    if (isGettingLoadingMore) {
         item {
             CircularProgressIndicator(
                 modifier = modifier

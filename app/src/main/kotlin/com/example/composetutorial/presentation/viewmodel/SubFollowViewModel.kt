@@ -98,6 +98,7 @@ class SubFollowViewModel(
                     val noMoreData = data.size < PAGE_SIZE
 
                     if (isRefreshing) {
+                        preList = data
                         if (noMoreData) {
                             _subFollowScreenUiState.emit(
                                 FollowSubPageScreenUiState.Loaded(
@@ -105,7 +106,6 @@ class SubFollowViewModel(
                                 )
                             )
                         } else {
-                            preList = data
                             _subFollowScreenUiState.emit(
                                 FollowSubPageScreenUiState.Loaded(
                                     data = preList, listState = ListLoadState.RefreshingSuccess
@@ -189,17 +189,6 @@ sealed class FollowSubPageScreenUiState {
     data object Empty : FollowSubPageScreenUiState()
     data class LoadFailed(val message: String) : FollowSubPageScreenUiState()
 }
-
-/*
-data class ListState(
-    val isRefreshing: Boolean,
-    val isLoadingMore: Boolean,
-    val noMoreData: Boolean,
-    val loadFailed: Boolean,
-    val errorMessage: String?,
-)
-*/
-
 
 
 sealed class FollowSubPageScreenSideEffect {

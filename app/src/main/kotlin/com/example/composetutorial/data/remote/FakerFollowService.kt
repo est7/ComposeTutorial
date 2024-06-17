@@ -8,15 +8,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import kotlin.random.Random
 
 
 class FakerFollowService(private val application: Application) : IFollowService {
     override suspend fun getComposeTipsList(): Result<ImmutableList<ComposeTipsItemDTO>> {
         return withContext(Dispatchers.IO) {
             delay(1000)
-            Result.success(
-                parseJsonFileToComposeTipsItemList("")
-            )
+            // 随机返回一个
+            if (Random.nextInt(0, 10) > 2) {
+                Result.success(
+                    parseJsonFileToComposeTipsItemList("")
+                )
+            } else {
+                Result.failure(Exception("Network Error ,Please try again later"))
+            }
         }
     }
 
@@ -32,6 +38,13 @@ class FakerFollowService(private val application: Application) : IFollowService 
     private suspend fun parseJsonFileToComposeTipsItemList(filePath: String): ImmutableList<ComposeTipsItemDTO> {
         val json = application.assets.open("compose-tips.json").bufferedReader().use { it.readText() }
         val decodeFromString = Json.decodeFromString<List<ComposeTipsItemDTO>>(json)
-        return decodeFromString.toImmutableList()
+        // 返回随机长度
+        Random.nextInt(0, 10).let {
+            return if (it < 7) {
+                decodeFromString.toImmutableList()
+            } else {
+                decodeFromString.subList(0, 18).toImmutableList()
+            }
+        }
     }
 }

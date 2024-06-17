@@ -1,6 +1,7 @@
 package com.example.composetutorial.presentation.page.common
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -15,12 +16,14 @@ fun FailedPage(message: String, onClickRetry: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
-        Text(text = "Load Failed")
-        if (visible) {
-            Text(text = message)
-        }
-        Button(onClick = onClickRetry) {
-            Text(text = "Retry")
+        Column {
+            Text(text = "Load Failed")
+            if (visible) {
+                Text(text = message)
+            }
+            Button(onClick = onClickRetry) {
+                Text(text = "Retry")
+            }
         }
     }
 
