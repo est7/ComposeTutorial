@@ -88,7 +88,7 @@ fun MainScreen(
             ) { index ->
                 when (index) {
                     0 ->HomeScreen()
-                    1 -> FollowScreen()
+                    1 -> SubFollowScreen()
                     2 -> SettingScreen()
                 }
             }

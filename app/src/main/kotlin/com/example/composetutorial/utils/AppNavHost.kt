@@ -36,10 +36,10 @@ import com.example.composetutorial.presentation.feature.tips_21.Tips21Screen
 import com.example.composetutorial.presentation.feature.tips_22.Tips22Screen
 import com.example.composetutorial.presentation.feature.tips_23.Tips23Screen
 import com.example.composetutorial.presentation.feature.tips_24.Tips24Screen
-import com.example.composetutorial.presentation.page.FollowScreen
 import com.example.composetutorial.presentation.page.MainScreen
 import com.example.composetutorial.presentation.page.MyProfileScreen
 import com.example.composetutorial.presentation.page.SettingScreen
+import com.example.composetutorial.presentation.page.SubFollowScreen
 
 
 @Composable
@@ -68,7 +68,7 @@ fun AppNavHost(
                 AnimatedContentTransitionScope.SlideDirection.Down,
                 targetOffset = { it / 4 }) + fadeOut()
         }) {
-            FollowScreen()
+            SubFollowScreen()
         }
 
         composable(route = Destination.Settings.route, enterTransition = {

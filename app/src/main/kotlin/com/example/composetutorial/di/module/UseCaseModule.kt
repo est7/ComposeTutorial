@@ -1,5 +1,7 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.presentation.usecase.GetFollowListConfigUseCase
+import com.example.composetutorial.presentation.usecase.GetFollowSubListUseCase
 import com.example.composetutorial.presentation.usecase.GetUserInfoListUseCase
 import com.example.composetutorial.presentation.usecase.LoginUseCase
 import com.example.composetutorial.presentation.usecase.LogoutUseCase
@@ -16,4 +18,6 @@ val useCaseModule = module {
     factory { LogoutUseCase(get()) }
     factory { UpdateMyInfoUseCase(get()) }
     factory { GetUserInfoListUseCase() }
+    factory { GetFollowListConfigUseCase() }
+    factory { GetFollowSubListUseCase() }
 }
