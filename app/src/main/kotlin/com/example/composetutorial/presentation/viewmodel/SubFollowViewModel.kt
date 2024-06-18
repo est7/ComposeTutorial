@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composetutorial.data.dto.ComposeTipsItemDTO
 import com.example.composetutorial.data.dto.PagedData
+import com.example.composetutorial.presentation.page.SubFollowPageAction
 import com.example.composetutorial.presentation.usecase.GetFollowSubListUseCase
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -35,6 +36,18 @@ class SubFollowViewModel(
 
     private val _sideEffect: Channel<FollowSubPageScreenSideEffect> = Channel()
     val sideEffect = _sideEffect.receiveAsFlow()
+
+
+    fun onSubFollowAction(action:SubFollowPageAction){
+        when(action){
+            SubFollowPageAction.LoadMore -> {
+                refreshSubFollowPageList()
+            }
+            SubFollowPageAction.Refresh -> {
+                loadMoreFollowSubPageList()
+            }
+        }
+    }
 
     fun refreshSubFollowPageList(type: String) {
         fetchData(type, page = 1, isRefresh = true)

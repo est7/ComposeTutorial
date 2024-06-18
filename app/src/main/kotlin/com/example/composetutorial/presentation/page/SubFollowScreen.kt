@@ -298,6 +298,8 @@ class FollowItemClick() {
 
 
 sealed class SubFollowPageAction {
-    data object Refresh : SubFollowPageAction()
-    data object LoadMore : SubFollowPageAction()
+    data class Refresh(val type:String) : SubFollowPageAction()
+    data class LoadMore(val type:String) : SubFollowPageAction()
+    data class onClickItem(val position:Int,val item:ComposeTipsItemDTO): SubFollowPageAction()
+
 }

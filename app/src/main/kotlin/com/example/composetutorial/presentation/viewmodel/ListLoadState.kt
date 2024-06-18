@@ -1,11 +1,6 @@
 package com.example.composetutorial.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
-import com.example.composetutorial.presentation.viewmodel.ListLoadState.Companion.LOADING_MORE_LOAD_FAILED
-import com.example.composetutorial.presentation.viewmodel.ListLoadState.Companion.LOADING_MORE_NO_MORE_DATA
-import com.example.composetutorial.presentation.viewmodel.ListLoadState.Companion.LOADING_MORE_SUCCESS
-import com.example.composetutorial.presentation.viewmodel.ListLoadState.Companion.REFRESH_LOAD_FAILED
-import com.example.composetutorial.presentation.viewmodel.ListLoadState.Companion.REFRESH_NO_MORE_DATA
 
 /**
  *
