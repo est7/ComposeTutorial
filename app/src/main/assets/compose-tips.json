@@ -123,5 +123,22 @@
     "id": "10024",
     "path": "tips_24",
     "desc": "利用 CompositionLocal 提供跨整个应用程序的依赖注入。 "
+  },
+  {
+    "id": "10025",
+    "path": "tips_25",
+    "desc": "使用rememberUpdatedState"
+  },
+  {
+    "id": "10026",
+    "path": "tips_26",
+    "desc": "使用lazyColumn 和 lazyRow 来加载大量数据"
+  },
+  {
+    "id": "10027",
+    "path": "tips_27",
+    "desc": "注意callback 导致的 Compose 重新渲染"
   }
+
+
 ]

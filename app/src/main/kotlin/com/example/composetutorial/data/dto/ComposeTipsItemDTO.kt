@@ -1,5 +1,6 @@
 package com.example.composetutorial.data.dto
 
+import androidx.compose.runtime.Stable
 import kotlinx.serialization.Serializable
 
 /**

@@ -29,7 +29,7 @@ class MainViewModel(val handle: SavedStateHandle, private val getUserInfoListUse
     private val _sideEffect: Channel<MainScreenSideEffect> = Channel()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    suspend fun getComposeTipsList(): StateFlow<MainScreenUiState> {
+    fun getComposeTipsList() {
         viewModelScope.launch {
             postSideEffect(MainScreenSideEffect.ShowToast("加载中..."))
 
@@ -41,7 +41,6 @@ class MainViewModel(val handle: SavedStateHandle, private val getUserInfoListUse
                 })
             }
         }
-        return mainScreenUiState
     }
 
 

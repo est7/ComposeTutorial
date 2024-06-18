@@ -36,6 +36,9 @@ import com.example.composetutorial.presentation.feature.tips_21.Tips21Screen
 import com.example.composetutorial.presentation.feature.tips_22.Tips22Screen
 import com.example.composetutorial.presentation.feature.tips_23.Tips23Screen
 import com.example.composetutorial.presentation.feature.tips_24.Tips24Screen
+import com.example.composetutorial.presentation.feature.tips_25.Tips25Screen
+import com.example.composetutorial.presentation.feature.tips_26.Tips26Screen
+import com.example.composetutorial.presentation.feature.tips_27.Tips27Screen
 import com.example.composetutorial.presentation.page.MainScreen
 import com.example.composetutorial.presentation.page.MyProfileScreen
 import com.example.composetutorial.presentation.page.SettingScreen
@@ -168,6 +171,15 @@ fun AppNavHost(
         }
         createRoute(Destination.Tips_24.route) {
             Tips24Screen()
+        }
+        createRoute(Destination.Tips_25.route) {
+            Tips25Screen()
+        }
+        createRoute(Destination.Tips_26.route) {
+            Tips26Screen()
+        }
+        createRoute(Destination.Tips_27.route) {
+            Tips27Screen()
         }
     }
 }

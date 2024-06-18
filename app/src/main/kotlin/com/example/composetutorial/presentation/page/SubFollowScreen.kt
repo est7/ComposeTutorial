@@ -3,7 +3,10 @@ package com.example.composetutorial.presentation.page
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -23,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +49,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.component.getScopeName
 
 @Composable
 fun SubFollowScreen(
@@ -55,52 +61,66 @@ fun SubFollowScreen(
         viewModel.refreshSubFollowPageList(type = "follow")
     }
 
-
-    val onClickBuilder = remember {
-        FollowItemClick {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        FollowScreen(uiState, action = {
+            when (it) {
+                SubFollowPageAction.Refresh -> viewModel.refreshSubFollowPageList(type = "follow")
+                SubFollowPageAction.LoadMore -> viewModel.loadMoreFollowSubPageList(type = "follow")
+            }
+        }) {
             onClickFollow = {
-                Toast.makeText(context, "点击了Item", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(context, "点击了Item", Toast.LENGTH_SHORT).show()
                 // viewModel.loadMoreFollowSubPageList(type = "follow")
             }
             onClickName = {
                 // viewModel.refreshSubFollowPageList(type = "follow")
             }
-            onRefresh = {
-                viewModel.refreshSubFollowPageList(type = "follow")
+            onClickItem = {
+                // Toast.makeText(context, "点击了Item", Toast.LENGTH_SHORT).show()
             }
-
-            onLoadMore = {
-                viewModel.loadMoreFollowSubPageList(type = "follow")
+            onClickRemove = {
+                // Toast.makeText(context, "点击了Item", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        FollowScreen(uiState, onClickBuilder = onClickBuilder)
-    }
 }
 
+
 @Composable
-fun FollowScreen(uiState: FollowSubPageScreenUiState, onClickBuilder: FollowItemClick) {
+fun FollowScreen(
+    uiState: FollowSubPageScreenUiState,
+    action: ((SubFollowPageAction) -> Unit)?,
+    onClickItemListener: (FollowItemClick.() -> Unit)?,
+) {
     Log.d("SubFollowScreen", "FollowScreen: uiState = $uiState")
+    val context = LocalContext.current
     when (uiState) {
         FollowSubPageScreenUiState.Initial -> LoadingPage()
-        is FollowSubPageScreenUiState.Loaded -> SubFollowList(data = uiState.data,
-            state = uiState.listState,
-            onClickBuilder = onClickBuilder,
-            onRefresh = {
-                onClickBuilder.onRefresh?.invoke()
-            },
-            onLoadMore = {
-                onClickBuilder.onLoadMore?.invoke()
-            })
+        is FollowSubPageScreenUiState.Loaded -> {
+            when (uiState.listState) {
+                is ListLoadState.RefreshingLoadFailed -> {
+                    Toast.makeText(context, uiState.listState.message, Toast.LENGTH_SHORT).show()
+                }
+
+                else -> {}
+            }
+            SubFollowList(data = uiState.data,
+                state = uiState.listState,
+                onClickItemListener = onClickItemListener,
+                onRefresh = {
+                    action?.let { it(SubFollowPageAction.Refresh) }
+                },
+                onLoadMore = {
+                    action?.let { it(SubFollowPageAction.LoadMore) }
+                })
+        }
 
         is FollowSubPageScreenUiState.Empty -> EmptyPage()
         is FollowSubPageScreenUiState.LoadFailed -> FailedPage(message = uiState.message, onClickRetry = {
-            onClickBuilder.onRefresh?.invoke()
+            action?.let { it(SubFollowPageAction.Refresh) }
         })
 
         FollowSubPageScreenUiState.EmptyLoading -> LoadingPage()
@@ -113,7 +133,7 @@ fun SubFollowList(
     modifier: Modifier = Modifier,
     data: ImmutableList<ComposeTipsItemDTO>,
     state: ListLoadState,
-    onClickBuilder: FollowItemClick,
+    onClickItemListener: (FollowItemClick.() -> Unit)?,
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit
 ) {
@@ -125,16 +145,18 @@ fun SubFollowList(
         LazyColumn(
             modifier = Modifier.fillMaxSize(), state = lazyListState
         ) {
-            itemsIndexed(items = data, key = { _, item -> item.id }) { index, item ->
-                FollowListItem(data = item, onClick = onClickBuilder.onClickFollow ?: {})
+            itemsIndexed(items = data, key = { _, item -> item.id }) { _, item ->
+                FollowListItem(data = item, onClick = onClickItemListener)
             }
 
-            listFooter(
-                isGettingLoadingMore = state.isGettingLoadingMore,
-                noMoreData = state.isNoMoreData,
-                loadFailed = state.isLoadingMoreLoadFailed,
-                errorMessage = (state as? ListLoadState.LoadingMoreLoadFailed)?.message
-            )
+            /*
+                        listFooter(
+                            isGettingLoadingMore = state.isGettingLoadingMore,
+                            noMoreData = state.isNoMoreData,
+                            loadFailed = state.isLoadingMoreLoadFailed,
+                            errorMessage = (state as? ListLoadState.LoadingMoreLoadFailed)?.message
+                        )
+            */
         }
         LoadMoreListener(
             lazyListState = lazyListState,
@@ -150,10 +172,13 @@ fun SubFollowList(
 fun LoadMoreListener(
     lazyListState: LazyListState, listSize: Int, onLoadMore: () -> Unit, noMoreData: Boolean, isLoadingMore: Boolean
 ) {
-    LaunchedEffect(listSize) {
+    // 这里如果不使用 rememberUpdatedState 会导致 listSize 不变化，导致 onLoadMore  不会被调用在后面 listSize 发生变化
+    val size by rememberUpdatedState(listSize)
+
+    LaunchedEffect(lazyListState) {
         snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }
             .map { it.lastOrNull()?.index }.distinctUntilChanged().collect { index ->
-                if (index == listSize - 1 && !noMoreData && !isLoadingMore) {
+                if (index == size - 1 && !noMoreData && !isLoadingMore) {
                     onLoadMore()
                 }
             }
@@ -167,75 +192,112 @@ fun LazyListScope.listFooter(
     errorMessage: String?,
     modifier: Modifier = Modifier,
 ) {
-    Log.d("FollowScreen-isLoadingMore", "isLoadingMore=$isGettingLoadingMore")
-    Log.d("FollowScreen-noMoreData", "noMoreData=$noMoreData")
-    Log.d("FollowScreen-loadFailed", "loadFailed=$loadFailed")
-    Log.d("FollowScreen-errorMessage", "errorMessage=$errorMessage")
 
-    if (isGettingLoadingMore) {
-        item {
-            CircularProgressIndicator(
-                modifier = modifier
-                    .size(200.dp)
-                    .padding(16.dp)
-            )
+    when {
+        isGettingLoadingMore -> {
+            item {
+                Row(
+                    modifier = modifier.fillMaxWidth()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = modifier
+                            .size(24.dp)
+                            .padding(16.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Text(
+                        text = "Loading", modifier = modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+            }
         }
-    }
 
-    if (noMoreData) {
-        item {
-            Text(
-                text = "No more data", modifier = modifier
-                    .fillMaxWidth()
-                    .padding(16.dp), textAlign = TextAlign.Center
-            )
+        noMoreData -> {
+            item {
+                Text(
+                    text = "No more data",
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
-    }
 
-    if (loadFailed) {
-        item {
-            Text(
-                text = errorMessage ?: "Load failed",
-                color = Color.Red,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                textAlign = TextAlign.Center
-            )
+        loadFailed -> {
+            item {
+                Text(
+                    text = errorMessage ?: "Load failed",
+                    color = Color.Red,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
 
 @Composable
-fun FollowListItem(data: ComposeTipsItemDTO, onClick: (() -> Unit)?) {
+fun FollowListItem(data: ComposeTipsItemDTO, onClick: (FollowItemClick.() -> Unit)?) {
+    // val clickListener = remember {
+    //     if (onClick != null) FollowItemClick().apply(onClick) else null
+    // }
+
+    val clickListener by rememberUpdatedState(newValue = onClick?.let { FollowItemClick().apply(it) })
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .clickable(onClick = { onClick?.invoke() })
+            .clickable(onClick = { clickListener?.onClickItem?.invoke() })
     ) {
-        Text(text = "Item ${data.id}")
+        Column(
+            verticalArrangement = Arrangement.Top, modifier = Modifier
+        ) {
+            Text(
+                text = "Item Name: ${data.path}",
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clickable(onClick = { clickListener?.onClickName?.invoke() })
+            )
+
+            Button(
+                onClick = { clickListener?.onClickFollow?.invoke() }, modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text = "Follow")
+            }
+
+
+            Button(
+                onClick = { clickListener?.onClickRemove?.invoke() }, modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text = "set block")
+            }
+
+
+        }
     }
 }
 
 @Preview
 @Composable
-fun PreviewSubFollowList() {
-    // SubFollowList(state = ListState(data = listOf(ComposeTipsItemDTO(id = 1))))
+fun PreviewSubFollowListItem() {
+    FollowListItem(data = ComposeTipsItemDTO(id = "lacinia", path = "fugit", desc = "justo"), onClick = {})
 }
 
-class FollowItemClick(build: OnFollowItemClickBuilder.() -> Unit) {
-    private val builder = OnFollowItemClickBuilder().apply(build)
 
-    val onClickFollow: (() -> Unit)? get() = builder.onClickFollow
-    val onClickName: (() -> Unit)? get() = builder.onClickName
-    val onRefresh: (() -> Unit)? get() = builder.onRefresh
-    val onLoadMore: (() -> Unit)? get() = builder.onLoadMore
+class FollowItemClick() {
+    var onClickItem: (() -> Unit)? = null
+    var onClickFollow: (() -> Unit)? = null
+    var onClickName: (() -> Unit)? = null
+    var onClickRemove: (() -> Unit)? = null
+}
 
-    class OnFollowItemClickBuilder {
-        var onClickFollow: (() -> Unit)? = null
-        var onClickName: (() -> Unit)? = null
-        var onRefresh: (() -> Unit)? = null
-        var onLoadMore: (() -> Unit)? = null
-    }
+
+sealed class SubFollowPageAction {
+    data object Refresh : SubFollowPageAction()
+    data object LoadMore : SubFollowPageAction()
 }

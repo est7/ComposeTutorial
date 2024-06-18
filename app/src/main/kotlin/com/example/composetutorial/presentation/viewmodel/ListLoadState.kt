@@ -78,7 +78,6 @@ sealed class ListLoadState(val type: Int, open val message: String? = null) {
 
         private val REFRESH_SUCCESS = STATE_REFRESHING or RESULT_SUCCESS
         private val REFRESH_NO_MORE_DATA = STATE_REFRESHING or RESULT_NO_MORE_DATA
-
         private val REFRESH_LOAD_FAILED = STATE_REFRESHING or RESULT_LOAD_FAILED
 
         private val LOADING_MORE_SUCCESS = STATE_LOADING_MORE or RESULT_SUCCESS
