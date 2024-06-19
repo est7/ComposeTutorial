@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -20,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.ktor.client.utils.EmptyContent.contentType
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -51,8 +53,27 @@ fun Tips26Screen() {
             }
         }) {
             LazyColumn {
-                itemsIndexed(items = list, key = { index, item -> index }) { _, item ->
+                itemsIndexed(
+                    items = list, key = { index, item -> index },
+                    contentType = { _, _ -> "contentType" },
+                ) { _, item ->
                     Tips26Item(data = item)
+                }
+
+                item {
+                    if (isRefreshing) {
+                        Text(
+                            text = "Loading...",
+                            modifier = Modifier.fillMaxSize(),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    } else {
+                        Text(
+                            text = "Loading...",
+                            modifier = Modifier.fillMaxSize(),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
                 }
             }
         }

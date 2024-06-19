@@ -38,22 +38,31 @@ class SubFollowViewModel(
     val sideEffect = _sideEffect.receiveAsFlow()
 
 
-    fun onSubFollowAction(action:SubFollowPageAction){
-        when(action){
-            SubFollowPageAction.LoadMore -> {
-                refreshSubFollowPageList()
+    fun onSubFollowAction(action: SubFollowPageAction) {
+        when (action) {
+            is SubFollowPageAction.LoadMore -> {
+                loadMoreFollowSubPageList(action.type)
             }
-            SubFollowPageAction.Refresh -> {
-                loadMoreFollowSubPageList()
+            is SubFollowPageAction.Refresh -> {
+                refreshSubFollowPageList(action.type)
             }
+            is SubFollowPageAction.onClickFollow -> {
+
+            }
+
+            is SubFollowPageAction.onClickRemove -> {
+
+            }
+
+            else -> return
         }
     }
 
-    fun refreshSubFollowPageList(type: String) {
+    private fun refreshSubFollowPageList(type: String) {
         fetchData(type, page = 1, isRefresh = true)
     }
 
-    fun loadMoreFollowSubPageList(type: String) {
+    private fun loadMoreFollowSubPageList(type: String) {
         if (pagedData.hasMore) {
             fetchData(type, pagedData.currentPage + 1, isRefresh = false)
         }
@@ -132,9 +141,9 @@ class SubFollowViewModel(
     }
 
     private suspend fun emitLoadedState(state: ListLoadState) {
-            _subFollowScreenUiState.emit(
-                FollowSubPageScreenUiState.Loaded(data = pagedData.data, listState = state)
-            )
+        _subFollowScreenUiState.emit(
+            FollowSubPageScreenUiState.Loaded(data = pagedData.data, listState = state)
+        )
     }
 
     private fun postSideEffect(followScreenUiState: FollowSubPageScreenSideEffect) {
@@ -147,6 +156,7 @@ class SubFollowViewModel(
         const val PAGE_SIZE = 20
     }
 }
+
 sealed class FollowSubPageScreenUiState {
     data object Initial : FollowSubPageScreenUiState()
     data object EmptyLoading : FollowSubPageScreenUiState()
