@@ -129,7 +129,8 @@ fun SubFollowList(
 ) {
     Log.d("SubFollowScreen", "SubFollowList: data = ${data.hashCode()},state = ${state.hashCode()}")
     val pullToRefreshState = rememberPullToRefreshState()
-    PullToRefreshBox(modifier = modifier,
+    PullToRefreshBox(
+        modifier = modifier,
         state = pullToRefreshState,
         isRefreshing = state.isGettingRefreshing,
         onRefresh = {
@@ -139,28 +140,32 @@ fun SubFollowList(
         LazyColumn(
             modifier = Modifier.fillMaxSize(), state = lazyListState
         ) {
-            itemsIndexed(items = data, key = { _, item -> item.id }) { index, item ->
+            itemsIndexed(items = data, key = { _, item -> item.id }, contentType = { index, item ->
+                "type_content"
+            }) { index, item ->
                 FollowListItem(index = index, data = item, action = action)
             }
 
             // 为什么要重组啊？
-            /*
-                        item {
-                            if(state.isGettingRefreshing){
-                                Text("Loading")
-                            }else{
-                                Text("Done")
-                            }
-                        }
-            */
+/*
+            item(contentType = "type_footer") {
+                if (state.isGettingRefreshing) {
+                    Text("Loading")
+                } else {
+                    Text("Done")
+                }
+            }
+*/
 
-            listFooter(
-                isGettingLoadingMore = state.isGettingLoadingMore,
-                noMoreData = state.isNoMoreData,
-                loadFailed = state.isLoadingMoreLoadFailed,
-                onClick = { action(SubFollowPageAction.LoadMore("follow")) },
-                errorMessage = (state as? ListLoadState.LoadingMoreLoadFailed)?.message
-            )
+            /*
+                        listFooter(
+                            isGettingLoadingMore = state.isGettingLoadingMore,
+                            noMoreData = state.isNoMoreData,
+                            loadFailed = state.isLoadingMoreLoadFailed,
+                            onClick = { action(SubFollowPageAction.LoadMore("follow")) },
+                            errorMessage = (state as? ListLoadState.LoadingMoreLoadFailed)?.message
+                        )
+            */
         }
         LoadMoreListener(
             lazyListState = lazyListState,
@@ -242,7 +247,7 @@ fun LazyListScope.listFooter(
 
     when {
         isGettingLoadingMore -> {
-            item {
+            item(contentType = "type_footer") {
                 Row(
                     modifier = modifier.fillMaxWidth()
                 ) {
@@ -262,7 +267,7 @@ fun LazyListScope.listFooter(
         }
 
         noMoreData -> {
-            item {
+            item(contentType = "type_footer") {
                 Text(
                     text = "No more data",
                     modifier = modifier
@@ -274,7 +279,7 @@ fun LazyListScope.listFooter(
         }
 
         loadFailed -> {
-            item {
+            item(contentType = "type_footer") {
                 Text(
                     text = errorMessage ?: "Load failed",
                     color = Color.Red,
