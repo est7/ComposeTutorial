@@ -2,6 +2,7 @@ package com.example.composetutorial.presentation.feature.tips_26
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -37,6 +38,10 @@ fun Tips26Screen() {
         mutableStateOf(tips26List3)
     }
 
+    val list4 by remember {
+        mutableStateOf(tips26List4)
+    }
+
     var isRefreshing by remember {
         mutableStateOf(false)
     }
@@ -51,7 +56,8 @@ fun Tips26Screen() {
     ) {
         val coroutineScope = rememberCoroutineScope()
 
-        PullToRefreshBox(isRefreshing = isRefreshing, onRefresh = {
+        PullToRefreshBox(isRefreshing = isRefreshing,
+            onRefresh = {
             isRefreshing = true
             coroutineScope.launch {
                 delay(2000)
@@ -59,15 +65,33 @@ fun Tips26Screen() {
                 isRefreshing = false
             }
         }) {
-            LazyColumn {
+            LazyColumn(
+                state = lazyListState,
+            ) {
+                item(contentType = "headerType") {
+                    if (isRefreshing) {
+                        Text(
+                            text = "Loading...",
+                            modifier = Modifier.fillMaxSize().padding(top = 100.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    } else {
+                        Text(
+                            text = "Loaded",
+                            modifier = Modifier.fillMaxSize().padding(top = 100.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+
                 itemsIndexed(
-                    items = if (switch) list1 else list2, key = { index, item -> item.id },
+                    items = if (!switch) list1 else list4, key = { index, item -> item.id },
                     contentType = { index: Int, item: Tips26Item -> "contentType" },
                 ) { _, item ->
                     Tips26Item(data = item)
                 }
 
-                item(contentType = "footerType") {
+            item(contentType = "footerType") {
                     if (isRefreshing) {
                         Text(
                             text = "Loading...",
@@ -140,4 +164,16 @@ val tips26List3 = persistentListOf(
     Tips26Item(id = 8, title = "18"),
     Tips26Item(id = 9, title = "19"),
     Tips26Item(id = 10, title = "20")
+)
+val tips26List4 = persistentListOf(
+    Tips26Item(id = 1, title = "1"),
+    Tips26Item(id = 2, title = "2"),
+    Tips26Item(id = 3, title = "3"),
+    Tips26Item(id = 4, title = "4"),
+    Tips26Item(id = 5, title = "five"),
+    Tips26Item(id = 6, title = "6"),
+    Tips26Item(id = 7, title = "7"),
+    Tips26Item(id = 8, title = "8"),
+    Tips26Item(id = 9, title = "9"),
+    Tips26Item(id = 10, title = "0")
 )
