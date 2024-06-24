@@ -42,7 +42,9 @@
 
 ## tips 20:
 
+## tips 21:
 
+## tips 22:
 
 
 # Compose Guard
