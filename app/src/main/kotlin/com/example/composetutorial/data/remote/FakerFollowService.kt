@@ -16,8 +16,8 @@ class FakerFollowService(private val application: Application) : IFollowService 
         return withContext(Dispatchers.IO) {
             delay(1000)
             // 随机返回一个
-            if (Random.nextInt(0, 10) > 2) {
-                // if (Random.nextInt(0, 10) > 0) {
+            // if (Random.nextInt(0, 10) > 2) {
+                if (Random.nextInt(0, 10) > 0) {
                 Result.success(
                     parseJsonFileToComposeTipsItemList("")
                 )
@@ -41,8 +41,8 @@ class FakerFollowService(private val application: Application) : IFollowService 
         val decodeFromString = Json.decodeFromString<List<ComposeTipsItemDTO>>(json)
         // 返回随机长度
         Random.nextInt(0, 10).let {
-            return if (it < 7) {
-                // return if (it < 11) {
+            // return if (it < 7) {
+                return if (it < 11) {
                 decodeFromString.toImmutableList()
             } else {
                 decodeFromString.subList(0, 18).toImmutableList()

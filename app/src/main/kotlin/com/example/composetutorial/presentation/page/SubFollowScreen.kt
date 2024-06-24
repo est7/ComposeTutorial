@@ -28,7 +28,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,9 +48,11 @@ import com.example.composetutorial.presentation.viewmodel.FollowSubPageScreenUiS
 import com.example.composetutorial.presentation.viewmodel.ListLoadState
 import com.example.composetutorial.presentation.viewmodel.SubFollowViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -129,13 +133,17 @@ fun SubFollowList(
 ) {
     Log.d("SubFollowScreen", "SubFollowList: data = ${data.hashCode()},state = ${state.hashCode()}")
     val pullToRefreshState = rememberPullToRefreshState()
-    PullToRefreshBox(
-        modifier = modifier,
-        state = pullToRefreshState,
-        isRefreshing = state.isGettingRefreshing,
-        onRefresh = {
-            action(SubFollowPageAction.Refresh("follow"))
-        }) {
+    PullToRefreshBox(modifier = modifier, state = pullToRefreshState, isRefreshing = state.isRefreshing, onRefresh = {
+        action(SubFollowPageAction.Refresh("follow"))
+/*
+        coroutineScope.launch {
+            isRefreshing = true
+            delay(1000)
+            isRefreshing = false
+        }
+*/
+
+    }) {
         val lazyListState = rememberLazyListState()
         LazyColumn(
             modifier = Modifier.fillMaxSize(), state = lazyListState
@@ -147,15 +155,14 @@ fun SubFollowList(
             }
 
             // 为什么要重组啊？
-/*
             item(contentType = "type_footer") {
-                if (state.isGettingRefreshing) {
+                if (state.isRefreshing) {
+                    // if (isRefreshing) {
                     Text("Loading")
                 } else {
                     Text("Done")
                 }
             }
-*/
 
             /*
                         listFooter(
@@ -172,7 +179,7 @@ fun SubFollowList(
             listSize = data.size,
             onLoadMore = { action(SubFollowPageAction.LoadMore("follow")) },
             noMoreData = state.isNoMoreData,
-            isLoadingMore = state.isGettingLoadingMore
+            isLoadingMore = state.isLoadingMore
         )
     }
 }
