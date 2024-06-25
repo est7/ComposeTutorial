@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
  * @date: 2024/6/4
  */
 @Serializable
-data class ComposeTipsItemDTO(val id:String, val path: String, val desc: String)
+data class ComposeTipsItemDTO(val id:Int, val path: String, val desc: String)
 

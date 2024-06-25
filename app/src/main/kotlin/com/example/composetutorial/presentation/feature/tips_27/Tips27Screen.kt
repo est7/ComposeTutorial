@@ -29,7 +29,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun Tips27Screen(viewModel: MainViewModel = koinViewModel()) {
     var refreshCount by remember { mutableIntStateOf(0) }
-    var data = remember { ComposeTipsItemDTO("0", "1", "1") }
+    var data = remember { ComposeTipsItemDTO(0, "path/to/data/1", "desc") }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,

@@ -17,14 +17,15 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -115,9 +116,11 @@ fun FollowScreen(
         }
 
         is FollowSubPageScreenUiState.Empty -> EmptyPage()
-        is FollowSubPageScreenUiState.LoadFailed -> FailedPage(message = uiState.message, onClickRetry = {
-            action(SubFollowPageAction.Refresh("follow"))
-        })
+        is FollowSubPageScreenUiState.LoadFailed -> FailedPage(
+            message = uiState.message,
+            onClickRetry = {
+                action(SubFollowPageAction.Refresh("follow"))
+            })
 
         FollowSubPageScreenUiState.EmptyLoading -> LoadingPage()
     }
@@ -133,46 +136,37 @@ fun SubFollowList(
 ) {
     Log.d("SubFollowScreen", "SubFollowList: data = ${data.hashCode()},state = ${state.hashCode()}")
     val pullToRefreshState = rememberPullToRefreshState()
-    PullToRefreshBox(modifier = modifier, state = pullToRefreshState, isRefreshing = state.isRefreshing, onRefresh = {
-        action(SubFollowPageAction.Refresh("follow"))
-/*
-        coroutineScope.launch {
-            isRefreshing = true
-            delay(1000)
-            isRefreshing = false
-        }
-*/
 
-    }) {
+    val isRefreshing by rememberUpdatedState(state.isRefreshing)
+    val isLoadingMore by rememberUpdatedState(state.isLoadingMore)
+    val isNoMoreData by rememberUpdatedState(state.isNoMoreData)
+    val isLoadMoreFailed by rememberUpdatedState(state.isLoadMoreFailed)
+    val errorMessage by rememberUpdatedState((state as? ListLoadState.LoadingMoreLoadFailed)?.message)
+
+    PullToRefreshBox(modifier = modifier,
+        state = pullToRefreshState,
+        isRefreshing = state.isRefreshing,
+        onRefresh = {
+            action(SubFollowPageAction.Refresh("follow"))
+        }) {
         val lazyListState = rememberLazyListState()
         LazyColumn(
             modifier = Modifier.fillMaxSize(), state = lazyListState
         ) {
+
             itemsIndexed(items = data, key = { _, item -> item.id }, contentType = { index, item ->
                 "type_content"
             }) { index, item ->
                 FollowListItem(index = index, data = item, action = action)
             }
 
-            // 为什么要重组啊？
-            item(contentType = "type_footer") {
-                if (state.isRefreshing) {
-                    // if (isRefreshing) {
-                    Text("Loading")
-                } else {
-                    Text("Done")
-                }
-            }
-
-            /*
-                        listFooter(
-                            isGettingLoadingMore = state.isGettingLoadingMore,
-                            noMoreData = state.isNoMoreData,
-                            loadFailed = state.isLoadingMoreLoadFailed,
-                            onClick = { action(SubFollowPageAction.LoadMore("follow")) },
-                            errorMessage = (state as? ListLoadState.LoadingMoreLoadFailed)?.message
-                        )
-            */
+            listFooter(
+                isGettingLoadingMore = isLoadingMore,
+                noMoreData = isNoMoreData,
+                loadFailed = isLoadMoreFailed,
+                onClick = { action(SubFollowPageAction.LoadMore("follow")) },
+                errorMessage = errorMessage
+            )
         }
         LoadMoreListener(
             lazyListState = lazyListState,
@@ -185,9 +179,16 @@ fun SubFollowList(
 }
 
 @Composable
-fun FollowListItem(index: Int = 0, data: ComposeTipsItemDTO, action: (SubFollowPageAction) -> Unit = { sub -> Unit }) {
-    Log.d("SubFollowScreen", "FollowListItem: index = $index, data = ${data.hashCode()},action = ${action.hashCode()}")
-    Box(
+fun FollowListItem(
+    index: Int = 0,
+    data: ComposeTipsItemDTO,
+    action: (SubFollowPageAction) -> Unit = { sub -> Unit }
+) {
+    Log.d(
+        "SubFollowScreen",
+        "FollowListItem: index = $index, data = ${data.hashCode()},action = ${action.hashCode()}"
+    )
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = {
@@ -201,7 +202,9 @@ fun FollowListItem(index: Int = 0, data: ComposeTipsItemDTO, action: (SubFollowP
         Column(
             verticalArrangement = Arrangement.Top, modifier = Modifier
         ) {
+            // 这里的clickable(onClick = { action(SubFollowPageAction.onClickName(index, data)) })也会导致 text 重组
             Text(
+
                 text = "Item Name: ${data.path}",
                 modifier = Modifier
                     .padding(16.dp)
@@ -209,14 +212,16 @@ fun FollowListItem(index: Int = 0, data: ComposeTipsItemDTO, action: (SubFollowP
             )
 
             Button(
-                onClick = { action(SubFollowPageAction.onClickFollow(index, data)) }, modifier = Modifier.padding(10.dp)
+                onClick = { action(SubFollowPageAction.onClickFollow(index, data)) },
+                modifier = Modifier.padding(10.dp)
             ) {
                 Text(text = "Follow")
             }
 
 
             Button(
-                onClick = { action(SubFollowPageAction.onClickRemove(index, data)) }, modifier = Modifier.padding(10.dp)
+                onClick = { action(SubFollowPageAction.onClickRemove(index, data)) },
+                modifier = Modifier.padding(10.dp)
             ) {
                 Text(text = "Set block")
             }
@@ -228,7 +233,11 @@ fun FollowListItem(index: Int = 0, data: ComposeTipsItemDTO, action: (SubFollowP
 
 @Composable
 fun LoadMoreListener(
-    lazyListState: LazyListState, listSize: Int, onLoadMore: () -> Unit, noMoreData: Boolean, isLoadingMore: Boolean
+    lazyListState: LazyListState,
+    listSize: Int,
+    onLoadMore: () -> Unit,
+    noMoreData: Boolean,
+    isLoadingMore: Boolean
 ) {
     // 这里如果不使用 rememberUpdatedState 会导致 listSize 不变化，导致 onLoadMore  不会被调用在后面 listSize 发生变化
     val size by rememberUpdatedState(listSize)
@@ -265,7 +274,8 @@ fun LazyListScope.listFooter(
                             .align(Alignment.CenterVertically)
                     )
                     Text(
-                        text = "Loading", modifier = modifier
+                        text = "Loading",
+                        modifier = modifier
                             .padding(16.dp)
                             .align(Alignment.CenterVertically)
                     )
@@ -308,7 +318,9 @@ fun PreviewSubFollowListItem() {
         Unit
     }
     FollowListItem(
-        index = 0, data = ComposeTipsItemDTO(id = "lacinia", path = "fugit", desc = "justo"), action = action
+        index = 0,
+        data = ComposeTipsItemDTO(id = 1001, path = "fugit", desc = "justo"),
+        action = action
     )
 }
 
@@ -319,17 +331,9 @@ sealed class SubFollowPageAction {
 
     data class onClickItem(val position: Int, val item: ComposeTipsItemDTO) : SubFollowPageAction()
     data class onClickName(val position: Int, val item: ComposeTipsItemDTO) : SubFollowPageAction()
-    data class onClickFollow(val position: Int, val item: ComposeTipsItemDTO) : SubFollowPageAction()
-    data class onClickRemove(val position: Int, val item: ComposeTipsItemDTO) : SubFollowPageAction()
+    data class onClickFollow(val position: Int, val item: ComposeTipsItemDTO) :
+        SubFollowPageAction()
+
+    data class onClickRemove(val position: Int, val item: ComposeTipsItemDTO) :
+        SubFollowPageAction()
 }
-
-
-/*
-class FollowItemClick() {
-    var onClickItem: (() -> Unit)? = null
-    var onClickFollow: (() -> Unit)? = null
-    var onClickName: (() -> Unit)? = null
-    var onClickRemove: (() -> Unit)? = null
-}
-*/
-

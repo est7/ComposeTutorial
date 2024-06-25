@@ -107,7 +107,7 @@ fun ComposeTipItem(composeTip: ComposeTipsItemDTO, onClick: () -> Unit = {}) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = composeTip.path)
-                Text(text = composeTip.id)
+                Text(text = composeTip.id.toString())
             }
             Text(text = composeTip.desc, modifier = Modifier.fillMaxSize().padding(0.dp, 8.dp))
         }
@@ -120,7 +120,7 @@ fun ComposeTipItem(composeTip: ComposeTipsItemDTO, onClick: () -> Unit = {}) {
 @Composable
 private fun PreviewHome() {
     HomeScreen(
-        uiState = MainScreenUiState.Success(listOf(ComposeTipsItemDTO("1", "path", "desc"))),
+        uiState = MainScreenUiState.Success(listOf(ComposeTipsItemDTO(1, "path", "desc"))),
         modifier = Modifier.fillMaxSize()
     )
 }
