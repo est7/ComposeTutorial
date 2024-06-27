@@ -138,7 +138,13 @@
     "id": "10027",
     "path": "tips_27",
     "desc": "注意callback 导致的 Compose 重新渲染"
+  },
+  {
+    "id": "10028",
+    "path": "tips_28",
+    "desc": "使用rememberUpdatedState 第二阶段"
   }
+
 
 
 ]

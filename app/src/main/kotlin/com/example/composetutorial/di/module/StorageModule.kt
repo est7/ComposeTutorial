@@ -1,5 +1,6 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.data.local.ColorItemDataSource
 import com.example.composetutorial.data.local.UserPreferencesDataSource
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -16,4 +17,5 @@ val storageModule = module {
         )
     }
     // single { MessageDatabase(androidApplication()) }
+    single{ColorItemDataSource()}
 }

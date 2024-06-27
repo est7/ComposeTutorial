@@ -1,5 +1,6 @@
 package com.example.composetutorial.di.module
 
+import com.example.composetutorial.presentation.usecase.GetColorItemUseCase
 import com.example.composetutorial.presentation.usecase.GetFollowListConfigUseCase
 import com.example.composetutorial.presentation.usecase.GetFollowSubListUseCase
 import com.example.composetutorial.presentation.usecase.GetUserInfoListUseCase
@@ -20,4 +21,5 @@ val useCaseModule = module {
     factory { GetUserInfoListUseCase() }
     factory { GetFollowListConfigUseCase() }
     factory { GetFollowSubListUseCase() }
+    factory { GetColorItemUseCase() }
 }

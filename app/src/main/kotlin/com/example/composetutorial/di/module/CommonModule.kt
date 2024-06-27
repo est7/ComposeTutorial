@@ -1,8 +1,8 @@
 package com.example.composetutorial.di.module
 
-import com.example.composetutorial.data.local.UserPreferencesDataSource
 import com.example.composetutorial.utils.ExceptionHandler
-import org.koin.android.ext.koin.androidContext
+import com.example.composetutorial.utils.MyDateUtils
+import com.example.composetutorial.utils.ResourceProviderUtils
 import org.koin.dsl.module
 
 /**
@@ -13,4 +13,5 @@ import org.koin.dsl.module
 
 val commonModule = module {
     single(createdAtStart = true) { ExceptionHandler(get()) }
+    single(createdAtStart = true) { ResourceProviderUtils(get()) }
 }

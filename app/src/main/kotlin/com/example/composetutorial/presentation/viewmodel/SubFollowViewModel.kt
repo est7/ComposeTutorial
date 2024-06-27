@@ -32,7 +32,7 @@ class SubFollowViewModel(
 
     private val _subFollowScreenUiState = MutableSharedFlow<FollowSubPageScreenUiState>()
     val subFollowScreenUiState: StateFlow<FollowSubPageScreenUiState> =
-        _subFollowScreenUiState.stateIn(viewModelScope, SharingStarted.Eagerly, FollowSubPageScreenUiState.Initial)
+        _subFollowScreenUiState.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), FollowSubPageScreenUiState.Initial)
 
     private val _sideEffect: Channel<FollowSubPageScreenSideEffect> = Channel()
     val sideEffect = _sideEffect.receiveAsFlow()

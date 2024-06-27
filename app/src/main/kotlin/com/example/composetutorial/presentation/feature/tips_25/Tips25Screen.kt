@@ -1,32 +1,29 @@
 package com.example.composetutorial.presentation.feature.tips_25
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.composetutorial.presentation.feature.tips_01.NoRippleInteractionSource
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun Tips25Screen() {
@@ -69,8 +66,25 @@ fun Tip25Button() {
 private fun Calculation(input: Int) {
     val rememberUpdatedStateInput by rememberUpdatedState(input)
     val rememberedInput = remember { input }
+    var count by remember { mutableIntStateOf(0) }
 
-    Text("updatedInput: $rememberUpdatedStateInput, rememberedInput: $rememberedInput")
+    LaunchedEffect(Unit) {
+        delay(5000)
+        Log.d("Tips25Screen", "Calculation input: $input, rememberUpdatedStateInput: $rememberUpdatedStateInput, rememberedInput: $rememberedInput")
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    Text(" input:$input, updatedInput: $rememberUpdatedStateInput, rememberedInput: $rememberedInput")
+
+    Button(interactionSource = NoRippleInteractionSource(), onClick = { count++
+        coroutineScope.launch {
+
+        }
+
+    }) {
+        Text("====Increase count: $count")
+    }
 }
 
 
@@ -98,7 +112,7 @@ fun DisplayText1(count: Int, checked: Boolean) {
     // remember 只在初次组合时记住了 clickHandlerToPrint 的初始状态，后续组合不会更新它。
     val clickHandlerToPrint = remember {
         {
-            Log.d("Tips25Screen", "Button clicked $count times")
+            Log.d("Tips25Screen", "DisplayText1 eButton clicked $count times")
             Unit
         }
     }
@@ -150,8 +164,8 @@ fun DisplayText3(count: Int, checked: Boolean) {
     Text("$count")
 
     Button(interactionSource = NoRippleInteractionSource(), onClick = {
-        Log.d("Tips25Screen", "DisplayText1 Button clicked count: $count times")
-        Log.d("Tips25Screen", "DisplayText1 Button clicked rememberCount: $rememberCount times")
+        Log.d("Tips25Screen", "DisplayText3 Button clicked count: $count times")
+        Log.d("Tips25Screen", "DisplayText3 Button clicked rememberCount: $rememberCount times")
     }) {
         Text("Click me")
     }

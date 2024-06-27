@@ -2,13 +2,21 @@ package com.example.composetutorial.presentation.page
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +30,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.PullToRefreshState
+import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,10 +48,15 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composetutorial.data.dto.ComposeTipsItemDTO
 import com.example.composetutorial.presentation.page.common.EmptyPage
@@ -55,6 +72,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import kotlin.math.roundToInt
 
 @Composable
 fun SubFollowScreen(
@@ -116,8 +134,7 @@ fun FollowScreen(
         }
 
         is FollowSubPageScreenUiState.Empty -> EmptyPage()
-        is FollowSubPageScreenUiState.LoadFailed -> FailedPage(
-            message = uiState.message,
+        is FollowSubPageScreenUiState.LoadFailed -> FailedPage(message = uiState.message,
             onClickRetry = {
                 action(SubFollowPageAction.Refresh("follow"))
             })
@@ -143,9 +160,10 @@ fun SubFollowList(
     val isLoadMoreFailed by rememberUpdatedState(state.isLoadMoreFailed)
     val errorMessage by rememberUpdatedState((state as? ListLoadState.LoadingMoreLoadFailed)?.message)
 
-    PullToRefreshBox(modifier = modifier,
+    CustomPullToRefreshBox(modifier = modifier,
         state = pullToRefreshState,
         isRefreshing = state.isRefreshing,
+        paddingValues = PaddingValues(top = 0.dp),
         onRefresh = {
             action(SubFollowPageAction.Refresh("follow"))
         }) {
@@ -168,6 +186,7 @@ fun SubFollowList(
                 errorMessage = errorMessage
             )
         }
+
         LoadMoreListener(
             lazyListState = lazyListState,
             listSize = data.size,
@@ -241,10 +260,21 @@ fun LoadMoreListener(
 ) {
     // 这里如果不使用 rememberUpdatedState 会导致 listSize 不变化，导致 onLoadMore  不会被调用在后面 listSize 发生变化
     val size by rememberUpdatedState(listSize)
+    val rememberNoMoreData by rememberUpdatedState(noMoreData)
+    val rememberIsLoadingMore by rememberUpdatedState(isLoadingMore)
 
     LaunchedEffect(lazyListState) {
         snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }
             .map { it.lastOrNull()?.index }.distinctUntilChanged().collect { index ->
+                Log.d(
+                    "SubFollowScreen-LoadMoreListener",
+                    "listSize = $listSize ,noMoreData = $noMoreData,isLoadingMore = $isLoadingMore"
+                )
+                Log.d(
+                    "SubFollowScreen-LoadMoreListener",
+                    "LoadMoreListener: index = $index, size = $size, noMoreData = $rememberNoMoreData, isLoadingMore = $rememberIsLoadingMore"
+                )
+
                 if (index == size - 1 && !noMoreData && !isLoadingMore) {
                     onLoadMore()
                 }
@@ -336,4 +366,65 @@ sealed class SubFollowPageAction {
 
     data class onClickRemove(val position: Int, val item: ComposeTipsItemDTO) :
         SubFollowPageAction()
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomPullToRefreshBox(
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    paddingValues: PaddingValues,
+    threshold: Dp = 120.dp,
+    modifier: Modifier = Modifier,
+    state: PullToRefreshState = rememberPullToRefreshState(),
+    indicator: @Composable BoxScope.() -> Unit = {
+        CustomPullToRefreshDefaults.ScalingIndicator(
+            isRefreshing = isRefreshing,
+            state = state,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(paddingValues)
+        )
+    },
+    enabled: () -> Boolean = { true },
+    content: @Composable BoxScope.() -> Unit,
+) {
+    val offsetY by animateDpAsState(
+        targetValue = with(LocalDensity.current) { (state.distanceFraction * threshold) },
+        label = ""
+    )
+
+    Box(
+        modifier.pullToRefresh(
+            state = state, isRefreshing = isRefreshing, onRefresh = onRefresh, enabled = enabled()
+        )
+    ) {
+        Box(modifier = Modifier.offset { IntOffset(0, offsetY.roundToPx()) }) {
+            content()
+        }
+
+        indicator()
+    }
+}
+
+object CustomPullToRefreshDefaults {
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun ScalingIndicator(
+        isRefreshing: Boolean,
+        state: PullToRefreshState,
+        modifier: Modifier = Modifier,
+    ) {
+        val scaleFraction = {
+            if (isRefreshing) 1f else LinearOutSlowInEasing.transform(state.distanceFraction)
+                .coerceIn(0f, 1f)
+        }
+        PullToRefreshDefaults.Indicator(
+            modifier = modifier.graphicsLayer {
+                scaleX = scaleFraction()
+                scaleY = scaleFraction()
+            }, isRefreshing = isRefreshing, state = state
+        )
+    }
 }
