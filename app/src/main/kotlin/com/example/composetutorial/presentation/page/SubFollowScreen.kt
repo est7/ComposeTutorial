@@ -264,7 +264,9 @@ fun LoadMoreListener(
     val rememberIsLoadingMore by rememberUpdatedState(isLoadingMore)
 
     LaunchedEffect(lazyListState) {
-        snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }
+        snapshotFlow {
+            lazyListState.layoutInfo.visibleItemsInfo
+        }.filter { it.isNotEmpty() }
             .map { it.lastOrNull()?.index }.distinctUntilChanged().collect { index ->
                 Log.d(
                     "SubFollowScreen-LoadMoreListener",
@@ -281,6 +283,7 @@ fun LoadMoreListener(
             }
     }
 }
+
 
 fun LazyListScope.listFooter(
     isGettingLoadingMore: Boolean,

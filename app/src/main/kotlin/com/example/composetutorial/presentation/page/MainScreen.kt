@@ -47,6 +47,7 @@ fun MainScreen(
         })
     }, bottomBar = {
         Column {
+
             NavigationBar {
                 NavigationBarItem(icon = {
                     Icon(
@@ -54,7 +55,7 @@ fun MainScreen(
                     )
                 }, label = { Text("Home") }, selected = (pagerState.currentPage == 0), onClick = {
                     scope.launch {
-                        pagerState.animateScrollToPage(0)
+                        pagerState.animateScrollToPage(pagerState.currentPage)
                     }
                 })
                 NavigationBarItem(icon = {
@@ -63,7 +64,7 @@ fun MainScreen(
                     )
                 }, label = { Text("Follow") }, selected = (pagerState.currentPage == 1), onClick = {
                     scope.launch {
-                        pagerState.animateScrollToPage(1)
+                        pagerState.animateScrollToPage(pagerState.currentPage)
                     }
                 })
                 NavigationBarItem(icon = {
@@ -72,7 +73,7 @@ fun MainScreen(
                     )
                 }, label = { Text("Settings") }, selected = (pagerState.currentPage == 2), onClick = {
                     scope.launch {
-                        pagerState.animateScrollToPage(2)
+                        pagerState.animateScrollToPage(pagerState.currentPage)
                     }
                 })
 
