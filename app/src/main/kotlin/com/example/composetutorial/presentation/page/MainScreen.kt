@@ -34,7 +34,6 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     onNavigate: (Destination) -> Unit,
 ) {
-    rememberNavController()
     val pagerState = rememberPagerState(initialPage = 0) { 3 }
     val scope = rememberCoroutineScope()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
@@ -47,7 +46,6 @@ fun MainScreen(
         })
     }, bottomBar = {
         Column {
-
             NavigationBar {
                 NavigationBarItem(icon = {
                     Icon(
